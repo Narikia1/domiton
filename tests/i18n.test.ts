@@ -69,6 +69,8 @@ describe("the catalogues", () => {
       const catalog = CATALOGS[locale];
       expect(catalog["similar.unconfirmed"], locale).toContain(catalog["status.likelyFree"]);
       expect(catalog["affiliate.note"], locale).toContain(catalog["action.get"]);
+      // The link is Jay's, not the company's, so the notice must not say the company earns from it.
+      expect(catalog["affiliate.note"], locale).not.toMatch(/\{company\}|Narikia/);
       // A screen reader's label has to hold the words on the button (WCAG 2.5.3).
       expect(catalog["action.getNamed"].toLowerCase(), locale).toContain(catalog["action.get"].toLowerCase());
     }

@@ -36,13 +36,15 @@
   color: var(--badge-variant-neutral-foreground);
 }
 
+/* The family line on the left and the languages on the right, stacked on a narrow window. */
 .app-footer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
   align-items: center;
-  gap: var(--spacing-stack-sm);
+  justify-content: space-between;
+  gap: var(--spacing-stack-md);
   margin-top: auto;
-  padding-top: var(--spacing-stack-lg);
+  padding-top: var(--spacing-section-sm);
   color: var(--semantic-text-secondary);
   text-align: center;
 }
@@ -147,6 +149,11 @@
 @media (max-width: 640px) {
   .verdict-title {
     font-size: var(--typography-heading-2-font-size);
+  }
+
+  .app-footer {
+    flex-direction: column;
+    justify-content: center;
   }
 
   /* Two buttons would squeeze the name, so they drop to their own line. */

@@ -63,10 +63,12 @@
   flex: 1 1 0;
 }
 
+/* The footer is taller than the header, so this keeps the search in the middle of the window, not just of the space between them. */
 .shell-lead {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  padding-top: var(--spacing-section-md);
 }
 
 /* In the Mac app, the page runs up behind the window's buttons. */

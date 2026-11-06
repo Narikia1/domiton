@@ -6,7 +6,7 @@ Use it at [domiton.narikia.com](https://domiton.narikia.com), or download the [M
 
 ## How it answers
 
-Domiton asks the registry that runs each ending. It uses no paid service and no registrar, so a search is never passed to anyone who sells names. Where Hostinger sells an ending, a free name also gets a "Get it" button with Narikia's affiliate link, and the app says so beside it.
+Domiton asks the registry that runs each ending. It uses no paid service and no registrar, so a search is never passed to anyone who sells names. Where Hostinger sells an ending, a free name also gets a "Get it" button with an affiliate link, and the app says so beside it.
 
 | Answer | What it means |
 |---|---|

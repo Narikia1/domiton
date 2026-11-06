@@ -63,5 +63,5 @@ export const de: Messages = {
   "problem.tooMany": "Zu viele Suchen in einer Minute. Warten Sie kurz und suchen Sie noch einmal.",
   "problem.offline": "Der Abfragedienst ist nicht erreichbar. Prüfen Sie Ihre Verbindung und suchen Sie noch einmal.",
 
-  "affiliate.note": "„Sichern“ öffnet Hostinger über den Affiliate-Link von {company}. Wenn Sie dort kaufen, kann {company} eine Provision erhalten.",
+  "affiliate.note": "„Sichern“ öffnet Hostinger über einen Affiliate-Link. Wenn Sie dort kaufen, kann dafür eine Provision gezahlt werden.",
 };

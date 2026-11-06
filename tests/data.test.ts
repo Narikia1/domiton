@@ -22,7 +22,7 @@ describe("Hostinger's endings", () => {
     expect(hostingerLink("xn--p1ai", "en")).toBeNull();
   });
 
-  it("open Hostinger in the person's language, always with the owner's code", () => {
+  it("open Hostinger in the person's language, always with Jay's code", () => {
     expect(hostingerLink("com", "en")).toBe("https://hostinger.com?REFERRALCODE=O38NARIKISRV");
     expect(hostingerLink("com", "de")).toBe("https://hostinger.de?REFERRALCODE=O38NARIKISRV");
     expect(hostingerLink("com", "fr")).toBe("https://hostinger.fr?REFERRALCODE=O38NARIKISRV");

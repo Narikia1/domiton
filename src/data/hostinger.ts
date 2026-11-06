@@ -1,7 +1,7 @@
 import { HOSTINGER_ENDINGS } from "./hostinger-endings.js";
 import type { Locale } from "./locales.js";
 
-/** The owner's referral code, the same one realjaynka.com uses. */
+/** Jay's own referral code, the same one realjaynka.com uses. Domiton is a Narikia product, and only this link is personal. */
 export const HOSTINGER_REFERRAL_CODE = "O38NARIKISRV";
 
 /** Hostinger's site in each language. Each one keeps the code on the way to its referral page. */

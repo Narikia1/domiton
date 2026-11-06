@@ -31,7 +31,7 @@ function openWindow() {
   const isMac = process.platform === "darwin";
   window = new BrowserWindow({
     width: 720,
-    height: 860,
+    height: 900,
     minWidth: 380,
     minHeight: 560,
     show: false,

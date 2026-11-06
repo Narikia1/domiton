@@ -63,5 +63,5 @@ export const fr: Messages = {
   "problem.tooMany": "Trop de recherches en une minute. Patientez un instant, puis réessayez.",
   "problem.offline": "Impossible de joindre le service de recherche. Vérifiez votre connexion, puis réessayez.",
 
-  "affiliate.note": "« Réserver » ouvre Hostinger via le lien d’affiliation de {company}. {company} peut toucher une commission si vous y achetez.",
+  "affiliate.note": "« Réserver » ouvre Hostinger via un lien d’affiliation. Une commission peut être versée si vous y achetez.",
 };

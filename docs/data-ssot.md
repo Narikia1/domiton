@@ -39,7 +39,7 @@ The type checker and the tests fail until all of these are done.
 - The name is free or probably free.
 - Hostinger's own catalogue lists its ending as a new registration. Transfer-only endings don't count.
 
-The button opens Hostinger's site in the person's language, with the owner's referral code. The app says it's an affiliate link wherever the button appears, and the link is marked `rel="sponsored"`.
+The button opens Hostinger's site in the person's language, with Jay's referral code. Domiton is a Narikia product, and only this link is personal, so the notice doesn't say Narikia earns from it. The app says it's an affiliate link wherever the button appears, and the link is marked `rel="sponsored"`.
 
 To refresh the list from Hostinger, set the token in the environment and commit the result:
 

@@ -61,7 +61,7 @@ export const en = {
   "problem.tooMany": "That's too many searches in a minute. Wait a moment and search again.",
   "problem.offline": "Can't reach the lookup service. Check your connection and search again.",
 
-  "affiliate.note": "\"Get it\" opens Hostinger through {company}'s affiliate link. {company} may earn a commission if you buy there.",
+  "affiliate.note": "\"Get it\" opens Hostinger through an affiliate link. A commission may be paid if you buy there.",
 } as const;
 
 export type MessageKey = keyof typeof en;
