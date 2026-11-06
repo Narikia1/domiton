@@ -2,6 +2,7 @@ import { spawn, type ChildProcess } from "node:child_process";
 import { createRequire } from "node:module";
 import AxeBuilder from "@axe-core/playwright";
 import { chromium, expect, test, type Browser, type Page } from "@playwright/test";
+import { hostingerLink } from "../src/data/hostinger.js";
 
 /**
  * Drives the real desktop app against the real registries.
@@ -120,6 +121,11 @@ test("a taken name shows who holds it, and free names on the same ending", async
   await page.screenshot({ path: "test-results/taken.png" });
 });
 
+test("a taken name has nothing to get, only its free neighbours do", async () => {
+  await expect(page.locator(".action").filter({ hasText: "Get it" })).toHaveCount(0);
+  await expect(rows().first().getByRole("link")).toHaveAttribute("rel", "sponsored noreferrer");
+});
+
 test("a taken name links to its site, in the browser", async () => {
   const visit = page.getByRole("link", { name: "Visit site" });
   await expect(visit).toHaveAttribute("href", "https://google.com");
@@ -131,7 +137,7 @@ test("the answer and each similar name can be copied", async () => {
   await main.click();
   await expect(page.locator(".verdict-actions")).toContainText("Copied");
 
-  const row = rows().first().locator(".button-secondary");
+  const row = rows().first().getByRole("button");
   await row.click();
   await expect(row).toHaveText("Copied");
 });
@@ -152,6 +158,13 @@ test("an unregistered name is free, and glows green", async () => {
   await expect(page.locator(".shell-wash-success")).toHaveAttribute("data-active", "true");
   await expect(page.getByRole("link", { name: "Visit site" })).toHaveCount(0);
   await expect(page.locator(".panel-aside")).toContainText("tried", { timeout: 90_000 });
+
+  // Hostinger sells .com, so the name and each suggestion can be got there, and the app says it's an affiliate link.
+  const get = page.locator(".action").filter({ hasText: "Get it" });
+  await expect(get).toHaveAttribute("href", hostingerLink("com", "en") as string);
+  await expect(get).toHaveAttribute("rel", "sponsored noreferrer");
+  await expect(rows().first().getByRole("link")).toHaveAttribute("href", hostingerLink("com", "en") as string);
+  await expect(page.locator(".affiliate-note")).toContainText("affiliate link");
   await page.screenshot({ path: "test-results/free.png" });
 });
 
@@ -174,8 +187,10 @@ test(".cd has no server in IANA's list, and still gets the registry's own answer
   await expect(page.getByRole("region", { name: "Registration" })).toContainText("Registrar");
   await search(`zqxv-domiton-${Date.now()}.cd`);
   await expect(answer()).toHaveText("Free", { timeout: 30_000 });
-  // Hostinger doesn't sell .cd, so there's no link to it.
+  // Hostinger doesn't sell .cd, so there's no link to it, and nothing to disclose.
+  await expect(page.locator(".panel-aside").last()).toContainText("tried", { timeout: 90_000 });
   await expect(page.locator('a[rel~="sponsored"]')).toHaveCount(0);
+  await expect(page.locator(".affiliate-note")).toHaveCount(0);
 });
 
 test("a mistake gets a clear message and no lookup", async () => {
@@ -208,9 +223,12 @@ test("speaks German and French, and remembers the choice", async () => {
   await search("google.com");
   await expect(answer()).toHaveText("Vergeben", { timeout: 30_000 });
   await expect(page.getByRole("region", { name: "Registrierung" })).toContainText("Registriert");
+  await expect(rows().first().getByRole("link")).toHaveAttribute("href", hostingerLink("com", "de") as string);
+  await expect(page.locator(".affiliate-note")).toContainText("Affiliate-Link");
 
   await page.getByRole("button", { name: "Français" }).click();
   await expect(answer()).toHaveText("Déjà pris");
+  await expect(rows().first().getByRole("link")).toHaveAttribute("href", hostingerLink("com", "fr") as string);
   await expect(page.locator("html")).toHaveAttribute("lang", "fr");
 
   await page.getByRole("button", { name: "English" }).click();

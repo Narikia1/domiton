@@ -1,7 +1,7 @@
 {
   "name": "domiton",
   "productName": "Domiton",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "description": "Check whether a domain name is free and find similar names on the same ending. A Narikia app in the DotGo family.",
   "author": "Narikia",

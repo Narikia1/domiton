@@ -13,7 +13,7 @@ Every fact the app relies on lives in one place, and everything else reads it. T
 | Limits and timings | [`src/data/limits.ts`](../src/data/limits.ts) | By hand |
 | Lookup sources, and registry servers IANA leaves out | [`src/data/registries.ts`](../src/data/registries.ts) | By hand, after testing |
 | Endings Hostinger sells | [`src/data/hostinger-endings.ts`](../src/data/hostinger-endings.ts) | Generated: `npm run data` |
-| The affiliate link | [`src/data/hostinger.ts`](../src/data/hostinger.ts) | By hand |
+| The referral code, and Hostinger's site per language | [`src/data/hostinger.ts`](../src/data/hostinger.ts) | By hand |
 | Colours, type, spacing, motion | [`src/ui/tokens`](../src/ui/tokens) | Generated: `npm run tokens` |
 
 Facts flow one way: `src/data` is read by the core, the screens, the server and the desktop apps, and imports nothing from them.
@@ -38,9 +38,8 @@ The type checker and the tests fail until all of these are done.
 
 - The name is free or probably free.
 - Hostinger's own catalogue lists its ending as a new registration. Transfer-only endings don't count.
-- `HOSTINGER_AFFILIATE_LINK` is set.
 
-The app says it's an affiliate link wherever the button appears, and the link is marked `rel="sponsored"`.
+The button opens Hostinger's site in the person's language, with the owner's referral code. The app says it's an affiliate link wherever the button appears, and the link is marked `rel="sponsored"`.
 
 To refresh the list from Hostinger, set the token in the environment and commit the result:
 

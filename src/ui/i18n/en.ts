@@ -16,7 +16,7 @@ export const en = {
   "action.visit": "Visit site",
   "action.newSearch": "New search",
   "action.get": "Get it",
-  "action.getNamed": "Get {domain} at Hostinger",
+  "action.getNamed": "Get it: {domain} at Hostinger",
   "action.copyNamed": "{action} {domain}",
 
   "copy.idle": "Copy",

@@ -8,8 +8,6 @@ import { isLocale, LOCALE_NAMES, LOCALES } from "../src/data/locales.js";
 import { PREFIXES, SUFFIXES } from "../src/data/name-words.js";
 import { UNLISTED_RDAP, UNLISTED_WHOIS } from "../src/data/registries.js";
 
-const LINK = "https://example.test/?ref=narikia";
-
 describe("Hostinger's endings", () => {
   it("come out of Hostinger's catalogue sorted and clean", () => {
     expect([...HOSTINGER_ENDINGS]).toEqual([...new Set(HOSTINGER_ENDINGS)].sort());
@@ -18,14 +16,16 @@ describe("Hostinger's endings", () => {
   });
 
   it("offer the link only for what Hostinger sells", () => {
-    expect(hostingerLink("com", LINK)).toBe(LINK);
-    expect(hostingerLink("co.uk", LINK)).toBe(LINK);
-    expect(hostingerLink("cd", LINK)).toBeNull();
-    expect(hostingerLink("xn--p1ai", LINK)).toBeNull();
+    expect(hostingerLink("com", "en")).not.toBeNull();
+    expect(hostingerLink("co.uk", "en")).not.toBeNull();
+    expect(hostingerLink("cd", "en")).toBeNull();
+    expect(hostingerLink("xn--p1ai", "en")).toBeNull();
   });
 
-  it("offer nothing until there's a link", () => {
-    expect(hostingerLink("com", null)).toBeNull();
+  it("open Hostinger in the person's language, always with the owner's code", () => {
+    expect(hostingerLink("com", "en")).toBe("https://hostinger.com?REFERRALCODE=O38NARIKISRV");
+    expect(hostingerLink("com", "de")).toBe("https://hostinger.de?REFERRALCODE=O38NARIKISRV");
+    expect(hostingerLink("com", "fr")).toBe("https://hostinger.fr?REFERRALCODE=O38NARIKISRV");
   });
 });
 

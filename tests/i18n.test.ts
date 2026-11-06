@@ -69,6 +69,8 @@ describe("the catalogues", () => {
       const catalog = CATALOGS[locale];
       expect(catalog["similar.unconfirmed"], locale).toContain(catalog["status.likelyFree"]);
       expect(catalog["affiliate.note"], locale).toContain(catalog["action.get"]);
+      // A screen reader's label has to hold the words on the button (WCAG 2.5.3).
+      expect(catalog["action.getNamed"].toLowerCase(), locale).toContain(catalog["action.get"].toLowerCase());
     }
   });
 });

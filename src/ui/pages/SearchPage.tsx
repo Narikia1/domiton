@@ -26,7 +26,7 @@ export function SearchPage() {
   const problem = result && !result.ok ? result : null;
   const checking = search !== null && result === null;
   const wash: Wash = found?.status === "free" ? "success" : "brand";
-  const getLink = found ? hostingerLink(found.ending) : null;
+  const getLink = found ? hostingerLink(found.ending, locale) : null;
 
   function submit() {
     void run(text, locale, (answer) => setText(answer.domain));

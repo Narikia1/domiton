@@ -1,11 +1,15 @@
 import { HOSTINGER_ENDINGS } from "./hostinger-endings.js";
+import type { Locale } from "./locales.js";
 
-/** Narikia's affiliate link. The buttons stay hidden until this is set. */
-export const HOSTINGER_AFFILIATE_LINK: string | null = null;
+/** The owner's referral code, the same one realjaynka.com uses. */
+export const HOSTINGER_REFERRAL_CODE = "O38NARIKISRV";
+
+/** Hostinger's site in each language. Each one keeps the code on the way to its referral page. */
+const SITES: Record<Locale, string> = { en: "hostinger.com", de: "hostinger.de", fr: "hostinger.fr" };
 
 const SOLD: ReadonlySet<string> = new Set(HOSTINGER_ENDINGS);
 
 /** Where to send someone who wants this ending, or null when Hostinger doesn't sell it. */
-export function hostingerLink(ending: string, link: string | null = HOSTINGER_AFFILIATE_LINK): string | null {
-  return link && SOLD.has(ending) ? link : null;
+export function hostingerLink(ending: string, locale: Locale): string | null {
+  return SOLD.has(ending) ? `https://${SITES[locale]}?REFERRALCODE=${HOSTINGER_REFERRAL_CODE}` : null;
 }
