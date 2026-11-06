@@ -4,7 +4,7 @@ import type { Messages } from "./en.js";
 export const de: Messages = {
   "meta.title": "{app}: Ist dieser Domainname frei?",
   "meta.description": "Prüfen Sie, ob ein Domainname frei ist, und finden Sie ähnliche Namen mit derselben Endung.",
-  "family.line": "Eine {company}-App aus der {family}-Familie",
+  "company.line": "Eine {company}-App",
   "language.label": "Sprache",
 
   "search.label": "Domainname",

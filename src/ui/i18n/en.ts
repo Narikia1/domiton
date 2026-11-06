@@ -2,7 +2,7 @@
 export const en = {
   "meta.title": "{app}: is this domain name free?",
   "meta.description": "Check whether a domain name is free, and find similar names on the same ending.",
-  "family.line": "A {company} app in the {family} family",
+  "company.line": "A {company} app",
   "language.label": "Language",
 
   "search.label": "Domain name",

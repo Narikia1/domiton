@@ -3,7 +3,7 @@ import { pathToFileURL } from "node:url";
 import { app, BrowserWindow, ipcMain, Menu, nativeTheme, net, protocol, shell } from "electron";
 import { lookup } from "../core/lookup.js";
 import { BRAND } from "../data/brand.js";
-import { MAX_INPUT } from "../data/limits.js";
+import { LOCATION_TIMEOUT, MAX_INPUT } from "../data/limits.js";
 import { isLocale } from "../data/locales.js";
 import { PAGE_DARK, PAGE_LIGHT } from "../ui/tokens/surfaces.js";
 
@@ -25,6 +25,18 @@ function servePages() {
   });
 }
 
+/** Where the person really is, as the website sees it, or the system's own setting if the website can't be reached. */
+async function findCountry(): Promise<string | null> {
+  try {
+    const response = await fetch(`${BRAND.site}/api/country`, { signal: AbortSignal.timeout(LOCATION_TIMEOUT) });
+    const { country } = (await response.json()) as { country?: unknown };
+    if (typeof country === "string" && country) return country;
+  } catch {
+    // Offline, or the website is down.
+  }
+  return app.getLocaleCountryCode() || null;
+}
+
 let window: BrowserWindow | null = null;
 
 function openWindow() {
@@ -42,8 +54,8 @@ function openWindow() {
       preload: join(__dirname, "preload.cjs"),
       contextIsolation: true,
       sandbox: true,
-      // The system's own settings, which the page's language choice starts from.
-      additionalArguments: [`--domiton-languages=${app.getPreferredSystemLanguages().join(",")}`, `--domiton-country=${app.getLocaleCountryCode()}`],
+      // The system's own languages, which the page's choice starts from.
+      additionalArguments: [`--domiton-languages=${app.getPreferredSystemLanguages().join(",")}`],
     },
   });
   window.once("ready-to-show", () => window?.show());
@@ -74,6 +86,10 @@ if (!app.requestSingleInstanceLock()) {
     // Windows shows the default menu as a bar across the page. The Mac keeps it for copy and paste.
     if (process.platform !== "darwin") Menu.setApplicationMenu(null);
     servePages();
+    ipcMain.handle("domiton:country", (event) => {
+      if (!event.senderFrame?.url.startsWith(`${ORIGIN}/`)) throw new Error("Request from an unknown page");
+      return findCountry();
+    });
     ipcMain.handle("domiton:lookup", (event, query: unknown, locale: unknown) => {
       if (!event.senderFrame?.url.startsWith(`${ORIGIN}/`)) throw new Error("Lookup from an unknown page");
       return lookup(typeof query === "string" ? query.slice(0, MAX_INPUT) : "", isLocale(locale) ? locale : undefined);

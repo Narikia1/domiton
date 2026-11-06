@@ -5,6 +5,6 @@
 export const BRAND = {
   name: "Domiton",
   endorsement: "BY NARIKIA",
-  family: "DotGo",
   company: "Narikia",
+  site: "https://domiton.narikia.com",
 } as const;

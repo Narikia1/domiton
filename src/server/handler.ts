@@ -4,6 +4,8 @@ import { MAX_INPUT, SERVER } from "../data/limits.js";
 import { DEFAULT_LOCALE, isLocale } from "../data/locales.js";
 
 const MINUTE = 60_000;
+/** Vercel sets this on every request, from the visitor's address. */
+const COUNTRY_HEADER = "x-vercel-ip-country";
 
 const windows = new Map<string, { started: number; used: number }>();
 
@@ -35,4 +37,9 @@ export async function handleLookup(request: Request): Promise<Response> {
   const result = await lookup(query, isLocale(language) ? language : DEFAULT_LOCALE);
   if (!result.ok) return reply(result, 400, "no-store");
   return reply(result, 200, result.status === "unknown" ? "no-store" : `public, max-age=0, s-maxage=${SERVER.sharedFor}`);
+}
+
+/** The country the visitor is in, for choosing a language. Nothing is kept. */
+export function handleCountry(request: Request): Response {
+  return Response.json({ country: request.headers.get(COUNTRY_HEADER) }, { headers: { "cache-control": "no-store" } });
 }

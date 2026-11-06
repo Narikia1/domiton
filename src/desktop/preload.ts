@@ -8,6 +8,6 @@ function argument(name: string): string {
 contextBridge.exposeInMainWorld("domiton", {
   platform: process.platform,
   languages: argument("domiton-languages").split(",").filter(Boolean),
-  country: argument("domiton-country") || null,
+  country: () => ipcRenderer.invoke("domiton:country"),
   lookup: (query: string, locale?: string) => ipcRenderer.invoke("domiton:lookup", query, locale),
 });

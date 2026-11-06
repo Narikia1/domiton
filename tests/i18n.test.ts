@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { LOCALES } from "../src/data/locales.js";
 import type { MessageKey } from "../src/ui/i18n/messages.js";
 import { CATALOGS, translator } from "../src/ui/i18n/messages.js";
-import { countryOf, negotiateLocale } from "../src/ui/i18n/negotiate.js";
+import { countryOf, locationDecides, negotiateLocale } from "../src/ui/i18n/negotiate.js";
 
 describe("choosing the language", () => {
   it("prefers what the person chose here", () => {
@@ -24,6 +24,20 @@ describe("choosing the language", () => {
   it("and English when nothing else is known", () => {
     expect(negotiateLocale(null, [])).toBe("en");
     expect(negotiateLocale("xx", ["es"], null)).toBe("en");
+  });
+
+  it("lets where someone really is beat the region in their device's language tag", () => {
+    expect(negotiateLocale(null, ["es-ES"], "DE")).toBe("de");
+    expect(negotiateLocale(null, ["ln-CD"], "US")).toBe("en");
+    expect(negotiateLocale(null, ["ln"], "CD")).toBe("fr");
+  });
+
+  it("only asks where someone is when that can change the language", () => {
+    expect(locationDecides(null, ["es-ES"])).toBe(true);
+    expect(locationDecides(null, [])).toBe(true);
+    expect(locationDecides(null, ["es-ES", "de"])).toBe(false);
+    expect(locationDecides("fr", ["es-ES"])).toBe(false);
+    expect(locationDecides("xx", ["es-ES"])).toBe(true);
   });
 
   it("finds a country in a language tag, and survives a bad one", () => {
@@ -79,7 +93,7 @@ describe("the catalogues", () => {
 
 describe("the translator", () => {
   it("fills in brand words and values", () => {
-    expect(translator("en").t("family.line")).toBe("A Narikia app in the DotGo family");
+    expect(translator("en").t("company.line")).toBe("A Narikia app");
     expect(translator("de").t("similar.title", { ending: "de" })).toBe("Frei mit .de");
   });
 

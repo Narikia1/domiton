@@ -25,6 +25,11 @@ export function countryOf(tags: readonly string[]): string | null {
   return null;
 }
 
+/** Whether location can still change the language: nobody chose one, and the device has none of the app's. */
+export function locationDecides(choice: string | null | undefined, deviceLanguages: readonly string[]): boolean {
+  return !isLocale(choice) && !deviceLanguages.some((tag) => languageOf(tag));
+}
+
 /** The language to show: what the person chose here, then their device's languages in order, then their country's, then English. */
 export function negotiateLocale(choice: string | null | undefined, deviceLanguages: readonly string[], country?: string | null): Locale {
   if (isLocale(choice)) return choice;

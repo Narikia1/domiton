@@ -68,7 +68,8 @@ test("the first screen shows up in full, in Narikia's type and with its logos", 
   await expect(page.locator(".verdict")).toHaveCSS("opacity", "1");
   await expect(page.locator(".panel")).toHaveCSS("opacity", "1");
   await expect(page.getByRole("region", { name: "What the answers mean" })).toContainText("Probably free");
-  await expect(page.getByText("DotGo", { exact: true })).toBeVisible();
+  await expect(page.getByText("DotGo")).toHaveCount(0);
+  await expect(page.locator(".app-header select")).toHaveValue("en");
 
   // The logo, then the name, then BY NARIKIA under the name.
   await expect(page.locator(".app-endorsement")).toHaveText("BY NARIKIA");
@@ -211,14 +212,14 @@ test("everything can be reached with the keyboard", async () => {
 });
 
 test("speaks German and French, and remembers the choice", async () => {
-  await page.getByRole("button", { name: "Deutsch" }).click();
+  await page.locator(".app-header select").selectOption("de");
   await expect(page.getByRole("heading", { name: "Finden Sie Ihre Domain" })).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("lang", "de");
   await expect(page).toHaveTitle(/Domainname/);
 
   await page.reload();
   await expect(page.getByRole("heading", { name: "Finden Sie Ihre Domain" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Deutsch" })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(".app-header select")).toHaveValue("de");
 
   await search("google.com");
   await expect(answer()).toHaveText("Vergeben", { timeout: 30_000 });
@@ -226,12 +227,12 @@ test("speaks German and French, and remembers the choice", async () => {
   await expect(rows().first().getByRole("link")).toHaveAttribute("href", hostingerLink("com", "de") as string);
   await expect(page.locator(".affiliate-note")).toContainText("Affiliate-Link");
 
-  await page.getByRole("button", { name: "Français" }).click();
+  await page.locator(".app-header select").selectOption("fr");
   await expect(answer()).toHaveText("Déjà pris");
   await expect(rows().first().getByRole("link")).toHaveAttribute("href", hostingerLink("com", "fr") as string);
   await expect(page.locator("html")).toHaveAttribute("lang", "fr");
 
-  await page.getByRole("button", { name: "English" }).click();
+  await page.locator(".app-header select").selectOption("en");
   await expect(answer()).toHaveText("Taken");
 });
 
@@ -244,8 +245,8 @@ test("meets WCAG 2.2 AA on every screen, in every language", async () => {
     return violations.map((violation) => `${screen}: ${violation.id} on ${violation.nodes.map((node) => node.target.join(" ")).join(", ")}`);
   };
   const found: string[] = [];
-  for (const language of ["English", "Deutsch", "Français"]) {
-    await page.getByRole("button", { name: language }).click();
+  for (const language of ["en", "de", "fr"]) {
+    await page.locator(".app-header select").selectOption(language);
     await page.locator(".action").last().click().catch(() => undefined);
     await expect(page.locator(".verdict-title")).toBeVisible();
     found.push(...(await violations(`${language}, first screen`)));
@@ -253,7 +254,7 @@ test("meets WCAG 2.2 AA on every screen, in every language", async () => {
     await expect(answer()).toBeVisible({ timeout: 30_000 });
     found.push(...(await violations(`${language}, answer`)));
   }
-  await page.getByRole("button", { name: "English" }).click();
+  await page.locator(".app-header select").selectOption("en");
   expect(found).toEqual([]);
 });
 

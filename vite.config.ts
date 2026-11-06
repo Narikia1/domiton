@@ -1,7 +1,7 @@
 import react from "@vitejs/plugin-react";
 import type { PreviewServer, ViteDevServer } from "vite";
 import { defineConfig, type Plugin } from "vitest/config";
-import { handleLookup } from "./src/server/handler.js";
+import { handleCountry, handleLookup } from "./src/server/handler.js";
 import { translator } from "./src/ui/i18n/messages.js";
 import { PAGE_DARK, PAGE_LIGHT } from "./src/ui/tokens/surfaces.js";
 
@@ -40,16 +40,19 @@ function pageHead(): Plugin {
   };
 }
 
-/** Serves /api/lookup on this computer, the same way the deployed function does. */
+/** Serves the API on this computer, the same way the deployed functions do. */
 function lookupApi(): Plugin {
   const serve = (server: PreviewServer | ViteDevServer) => {
-    server.middlewares.use("/api/lookup", (request, response) => {
-      void handleLookup(new Request(`http://localhost${request.originalUrl}`)).then(async (answer) => {
-        response.statusCode = answer.status;
-        response.setHeader("content-type", "application/json");
-        response.end(await answer.text());
+    const route = (path: string, handle: (request: Request) => Response | Promise<Response>) =>
+      server.middlewares.use(path, (request, response) => {
+        void Promise.resolve(handle(new Request(`http://localhost${request.originalUrl}`))).then(async (answer) => {
+          response.statusCode = answer.status;
+          response.setHeader("content-type", "application/json");
+          response.end(await answer.text());
+        });
       });
-    });
+    route("/api/lookup", handleLookup);
+    route("/api/country", handleCountry);
   };
   return { name: "domiton-lookup-api", configureServer: serve, configurePreviewServer: serve };
 }

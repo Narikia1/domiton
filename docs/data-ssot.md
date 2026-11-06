@@ -22,7 +22,14 @@ Facts flow one way: `src/data` is read by the core, the screens, the server and 
 
 The app speaks English, German and French. It addresses people formally (`Sie`, `vous`), like every Narikia app.
 
-It chooses in this order: what the person picked in the app, their device's languages in order, the language of their country, then English.
+It chooses in this order, for the website and the desktop apps alike:
+
+1. What the person picked in the app's dropdown, which is remembered.
+2. Their device's languages, in order.
+3. The language of the country they're in: German in Germany, Austria, Switzerland and Liechtenstein, French where French is an official or business language, and English everywhere else.
+4. English.
+
+The country comes from `/api/country`, which reads what Vercel works out from the visitor's address and keeps nothing. The app only asks for it when nobody has chosen and the device has none of the three languages. The desktop apps ask the same endpoint and, if it can't be reached, use the system's region.
 
 To add a language:
 

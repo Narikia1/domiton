@@ -9,7 +9,7 @@ export type { MessageKey };
 /** Every language must provide every key, which the Messages type enforces. */
 export const CATALOGS: Record<Locale, Messages> = { en, de, fr };
 
-const BRAND_WORDS = { app: BRAND.name, company: BRAND.company, family: BRAND.family };
+const BRAND_WORDS = { app: BRAND.name, company: BRAND.company };
 
 export interface Translator {
   locale: Locale;

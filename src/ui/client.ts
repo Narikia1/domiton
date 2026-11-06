@@ -6,9 +6,9 @@ declare global {
     /** Only in the desktop apps, which ask the registries themselves instead of going through a server. */
     domiton?: {
       platform: string;
-      /** The system's languages, in the person's order, and the country it's set to. */
+      /** The system's languages, in the person's order. */
       languages: readonly string[];
-      country: string | null;
+      country(): Promise<string | null>;
       lookup(query: string, locale?: Locale): Promise<LookupResult>;
     };
   }
@@ -23,5 +23,17 @@ export async function lookup(query: string, locale?: Locale): Promise<LookupResu
     return (await response.json()) as LookupResult;
   } catch {
     return { ok: false, problem: "offline" };
+  }
+}
+
+/** The country the person is in, or null if that can't be found out. */
+export async function findCountry(): Promise<string | null> {
+  try {
+    if (window.domiton) return await window.domiton.country();
+    const response = await fetch("/api/country");
+    const { country } = (await response.json()) as { country?: unknown };
+    return typeof country === "string" && country ? country : null;
+  } catch {
+    return null;
   }
 }

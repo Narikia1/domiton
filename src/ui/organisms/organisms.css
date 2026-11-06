@@ -28,32 +28,15 @@
   font-family: var(--typography-label-sm-font-family);
 }
 
-.family-chip {
-  padding: var(--spacing-inline-xs) var(--spacing-inline-md);
-  border: var(--badge-border-width) solid var(--badge-variant-neutral-border-color);
-  border-radius: var(--rounding-pill);
-  background: var(--badge-variant-neutral-background);
-  color: var(--badge-variant-neutral-foreground);
-}
-
-/* The family line on the left and the languages on the right, stacked on a narrow window. */
 .app-footer {
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-stack-md);
-  margin-top: auto;
-  padding-top: var(--spacing-section-sm);
-  color: var(--semantic-text-secondary);
-  text-align: center;
-}
-
-.app-footer-family {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-inline-sm);
+  margin-top: auto;
+  padding-top: var(--spacing-section-sm);
+  color: var(--semantic-text-secondary);
+  text-align: center;
 }
 
 .row-actions {
@@ -149,11 +132,6 @@
 @media (max-width: 640px) {
   .verdict-title {
     font-size: var(--typography-heading-2-font-size);
-  }
-
-  .app-footer {
-    flex-direction: column;
-    justify-content: center;
   }
 
   /* Two buttons would squeeze the name, so they drop to their own line. */

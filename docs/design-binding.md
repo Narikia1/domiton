@@ -29,7 +29,7 @@ All three show the same pages, so they share one token artifact.
 
 ## Brands
 
-Narikia's brand token set. DotGo is only an app family name, so it appears as words and has no logo or tokens of its own.
+Narikia's brand token set. DotGo is only an app family name, and doesn't appear in the app.
 
 ## Logo
 

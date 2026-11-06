@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Locale } from "../../data/locales.js";
+import { findCountry } from "../client.js";
 import { translator, type Translator } from "./messages.js";
-import { negotiateLocale } from "./negotiate.js";
+import { locationDecides, negotiateLocale } from "./negotiate.js";
 
 const CHOICE_KEY = "domiton.language";
 
@@ -21,9 +22,8 @@ function saveChoice(locale: Locale) {
   }
 }
 
-function startingLocale(): Locale {
-  const desktop = window.domiton;
-  return negotiateLocale(savedChoice(), desktop?.languages ?? navigator.languages, desktop?.country);
+function deviceLanguages(): readonly string[] {
+  return window.domiton?.languages ?? navigator.languages;
 }
 
 interface I18n extends Translator {
@@ -33,7 +33,26 @@ interface I18n extends Translator {
 const I18nContext = createContext<I18n | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocale] = useState<Locale>(startingLocale);
+  const [locale, setLocale] = useState<Locale>(() => negotiateLocale(savedChoice(), deviceLanguages()));
+
+  // Location only counts when nobody chose and the device has none of the app's languages, so it's only asked for then.
+  useEffect(() => {
+    let current = true;
+    const follow = () => {
+      setLocale(negotiateLocale(savedChoice(), deviceLanguages()));
+      if (!locationDecides(savedChoice(), deviceLanguages())) return;
+      void findCountry().then((country) => {
+        // Read the choice again, as the person may have picked a language in the meantime.
+        if (current && country) setLocale(negotiateLocale(savedChoice(), deviceLanguages(), country));
+      });
+    };
+    follow();
+    window.addEventListener("languagechange", follow);
+    return () => {
+      current = false;
+      window.removeEventListener("languagechange", follow);
+    };
+  }, []);
 
   const value = useMemo<I18n>(
     () => ({

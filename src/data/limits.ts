@@ -16,6 +16,9 @@ export const LOOKUP = {
   quietFor: 10 * 60 * 1000,
 } as const;
 
+/** How long the desktop apps wait to learn the country before using the system's own setting. */
+export const LOCATION_TIMEOUT = 3000;
+
 export const SEARCH = {
   /** How many free names a search looks for. Only names that are hard to find free use all the suggestions. */
   target: 12,

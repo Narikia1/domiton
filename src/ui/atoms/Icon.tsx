@@ -1,4 +1,4 @@
-export type IconName = "search" | "arrow" | "copy" | "check" | "alert" | "external" | "reset" | "bag";
+export type IconName = "search" | "arrow" | "copy" | "check" | "alert" | "external" | "reset" | "bag" | "chevron";
 
 const PATHS: Record<IconName, string> = {
   search: "M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm10 2-4.35-4.35",
@@ -9,6 +9,7 @@ const PATHS: Record<IconName, string> = {
   external: "M14 4h6v6m0-6L10 14M18 14v6H4V6h6",
   reset: "M4 12a8 8 0 1 0 2.6-5.9L4 8.5M4 4v4.5h4.5",
   bag: "M6 8h12l1 12H5L6 8Zm3 0V7a3 3 0 0 1 6 0v1",
+  chevron: "m6 9 6 6 6-6",
 };
 
 /** Decorative by default: the control around an icon carries the name people hear. */

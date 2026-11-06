@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { lookup } from "../src/core/lookup.js";
 import type { Found } from "../src/core/types.js";
-import { handleLookup, overLimit } from "../src/server/handler.js";
+import { handleCountry, handleLookup, overLimit } from "../src/server/handler.js";
 
 vi.mock("../src/core/lookup.js", () => ({ lookup: vi.fn() }));
 const answer = vi.mocked(lookup);
@@ -68,5 +68,17 @@ describe("the limit per address", () => {
     expect(overLimit("203.0.113.1", start)).toBe(true);
     expect(overLimit("203.0.113.2", start)).toBe(false);
     expect(overLimit("203.0.113.1", start + 60_000)).toBe(false);
+  });
+});
+
+describe("the country API", () => {
+  it("passes on the country Vercel found, and lets nobody keep it", async () => {
+    const response = handleCountry(new Request("https://domiton.test/api/country", { headers: { "x-vercel-ip-country": "CD" } }));
+    expect(await response.json()).toEqual({ country: "CD" });
+    expect(response.headers.get("cache-control")).toBe("no-store");
+  });
+
+  it("says so when it doesn't know", async () => {
+    expect(await handleCountry(new Request("https://domiton.test/api/country")).json()).toEqual({ country: null });
   });
 });
