@@ -9,11 +9,14 @@ interface AppShellProps {
   wash: Wash;
   header: ReactNode;
   footer: ReactNode;
+  /** What the first screen shows above the search. With it, the search sits in the middle of the window. */
+  lead?: ReactNode;
+  search: ReactNode;
   children: ReactNode;
 }
 
 /** The one layout in the app: a soft colour wash, and a centred column of cards on top of it. */
-export function AppShell({ wash, header, footer, children }: AppShellProps) {
+export function AppShell({ wash, header, footer, lead, search, children }: AppShellProps) {
   return (
     <div className="shell">
       {WASHES.map((name) => (
@@ -22,7 +25,11 @@ export function AppShell({ wash, header, footer, children }: AppShellProps) {
       <div className="shell-drag" aria-hidden="true" />
       <div className="shell-column">
         {header}
-        <main className="shell-main">{children}</main>
+        <main className="shell-main" data-centred={lead !== undefined}>
+          {lead && <div className="shell-lead">{lead}</div>}
+          {search}
+          <div className="shell-rest">{children}</div>
+        </main>
         {footer}
       </div>
     </div>

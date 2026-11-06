@@ -34,22 +34,28 @@ export function SearchPage() {
   }
 
   return (
-    <AppShell wash={wash} header={<AppHeader />} footer={<AppFooter />}>
-      <SearchField
-        label={TEXT.searchLabel}
-        placeholder={TEXT.searchPlaceholder}
-        submitLabel={TEXT.searchSubmit}
-        value={text}
-        inputRef={field}
-        invalid={problem !== null}
-        onChange={setText}
-        onSubmit={submit}
-      />
+    <AppShell
+      wash={wash}
+      header={<AppHeader />}
+      footer={<AppFooter />}
+      lead={!checking && !found ? <VerdictIdle /> : undefined}
+      search={
+        <SearchField
+          label={TEXT.searchLabel}
+          placeholder={TEXT.searchPlaceholder}
+          submitLabel={TEXT.searchSubmit}
+          value={text}
+          inputRef={field}
+          invalid={problem !== null}
+          onChange={setText}
+          onSubmit={submit}
+        />
+      }
+    >
       {problem && <ProblemNotice message={problemText(problem)} />}
 
       {checking && <VerdictChecking query={search.query} />}
       {found && <VerdictAnswer key={found.domain} found={found} onNewSearch={startOver} />}
-      {!checking && !found && <VerdictIdle />}
 
       {found ? (
         <>

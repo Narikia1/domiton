@@ -46,10 +46,27 @@
   padding: var(--spacing-inset-md) var(--spacing-gutter-mobile) var(--spacing-inset-lg);
 }
 
-.shell-main {
+.shell-main,
+.shell-rest {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-stack-md);
+}
+
+/* Equal parts above and below hold the search in the middle. A window too short for that just stacks them. */
+.shell-main[data-centred="true"] {
+  flex: 1;
+}
+
+.shell-lead,
+.shell-main[data-centred="true"] > .shell-rest {
+  flex: 1 1 0;
+}
+
+.shell-lead {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 /* In the Mac app, the page runs up behind the window's buttons. */

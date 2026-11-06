@@ -74,6 +74,11 @@ test("the first screen shows up in full, in Narikia's type and with its logos", 
   expect(endorsement!.x).toBe(name!.x);
   expect(endorsement!.y).toBeGreaterThanOrEqual(name!.y + name!.height);
 
+  // The search sits in the middle of the window.
+  const windowHeight = await page.evaluate(() => innerHeight);
+  const field = await page.locator("#search").boundingBox();
+  expect(Math.abs(field!.y + field!.height / 2 - windowHeight / 2)).toBeLessThan(windowHeight * 0.1);
+
   const look = await page.evaluate(async () => {
     await document.fonts.ready;
     const images = [...document.images];
@@ -94,6 +99,11 @@ test("a taken name shows who holds it, and free names on the same ending", async
   await expect(answer()).toHaveText("Taken", { timeout: 30_000 });
   await expect(page.locator("#search")).toHaveValue("google.com");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("google.com");
+  await expect(page.locator(".verdict-answer")).toHaveCSS("opacity", "1");
+  // With an answer, the search moves to the top to leave it room, and keeps the cursor.
+  await expect(page.locator("#search")).toBeFocused();
+  const field = await page.locator("#search").boundingBox();
+  expect(field!.y).toBeLessThan((await page.evaluate(() => innerHeight)) / 4);
   await expect(page.getByRole("region", { name: "Registration" })).toContainText("Registered");
   await expect(page.getByRole("region", { name: "Registration" })).toContainText("MarkMonitor");
 
@@ -127,6 +137,9 @@ test("New search goes back to the start", async () => {
   await expect(page.locator("#search")).toHaveValue("");
   await expect(page.getByRole("heading", { name: "Find your domain" })).toBeVisible();
   await expect(page.locator("#search")).toBeFocused();
+  const windowHeight = await page.evaluate(() => innerHeight);
+  const field = await page.locator("#search").boundingBox();
+  expect(Math.abs(field!.y + field!.height / 2 - windowHeight / 2)).toBeLessThan(windowHeight * 0.1);
 });
 
 test("an unregistered name is free, and glows green", async () => {
