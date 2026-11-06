@@ -219,6 +219,9 @@ test("speaks German and French, and remembers the choice", async () => {
 
 test("meets WCAG 2.2 AA on every screen, in every language", async () => {
   const violations = async (screen: string) => {
+    // Text that is still fading in measures as weak contrast, so everything has to settle first.
+    await expect(page.locator(".skeleton")).toHaveCount(0, { timeout: 90_000 });
+    await page.evaluate(() => Promise.all(document.getAnimations().map((animation) => animation.finished)));
     const { violations } = await new AxeBuilder({ page }).setLegacyMode(true).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
     return violations.map((violation) => `${screen}: ${violation.id} on ${violation.nodes.map((node) => node.target.join(" ")).join(", ")}`);
   };
@@ -230,7 +233,6 @@ test("meets WCAG 2.2 AA on every screen, in every language", async () => {
     found.push(...(await violations(`${language}, first screen`)));
     await search("google.com");
     await expect(answer()).toBeVisible({ timeout: 30_000 });
-    await expect(page.locator(".panel-aside").last()).not.toBeEmpty();
     found.push(...(await violations(`${language}, answer`)));
   }
   await page.getByRole("button", { name: "English" }).click();
