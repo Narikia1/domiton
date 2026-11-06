@@ -6,6 +6,7 @@ import type { CopyState } from "./state/useCopy.js";
 /** Every word the app shows, in one place. */
 export const TEXT = {
   appName: "Domiton",
+  endorsement: "BY NARIKIA",
   familyName: "DotGo",
   familyLine: "A Narikia app in the DotGo family",
   searchLabel: "Domain name",

@@ -31,6 +31,12 @@ All three show the same pages, so they share one token artifact.
 
 Narikia's brand token set. DotGo is only an app family name, so it appears as words and has no logo or tokens of its own.
 
+## Logo
+
+Always the logo, then the name, then `BY NARIKIA` under the name. This is the owner's rule for every Narikia app. The app icon stays the logo alone, because the words would be unreadable at that size and the system shows the name beneath it.
+
+The line uses `typography.eyebrow`'s size and tracking in the sans, to match Monami's logo, because that token itself is monospace.
+
 ## Module paths
 
 | What | Path |

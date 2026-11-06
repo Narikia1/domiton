@@ -65,6 +65,15 @@ test("the first screen shows up in full, in Narikia's type and with its logos", 
   await expect(page.getByRole("region", { name: "What the answers mean" })).toContainText("Probably free");
   await expect(page.getByText("DotGo", { exact: true })).toBeVisible();
 
+  // The logo, then the name, then BY NARIKIA under the name.
+  await expect(page.locator(".app-endorsement")).toHaveText("BY NARIKIA");
+  const mark = await page.locator(".app-mark").boundingBox();
+  const name = await page.locator(".app-name > :first-child").boundingBox();
+  const endorsement = await page.locator(".app-endorsement").boundingBox();
+  expect(name!.x).toBeGreaterThanOrEqual(mark!.x + mark!.width);
+  expect(endorsement!.x).toBe(name!.x);
+  expect(endorsement!.y).toBeGreaterThanOrEqual(name!.y + name!.height);
+
   const look = await page.evaluate(async () => {
     await document.fonts.ready;
     const images = [...document.images];

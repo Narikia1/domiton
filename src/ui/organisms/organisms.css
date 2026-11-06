@@ -17,6 +17,17 @@
   height: var(--button-size-md-height);
 }
 
+.app-name {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The eyebrow's size and tracking in the sans, as in Monami's logo. The eyebrow token itself is monospace. */
+.app-endorsement {
+  color: var(--semantic-text-secondary);
+  font-family: var(--typography-label-sm-font-family);
+}
+
 .family-chip {
   padding: var(--spacing-inline-xs) var(--spacing-inline-md);
   border: var(--badge-border-width) solid var(--badge-variant-neutral-border-color);
