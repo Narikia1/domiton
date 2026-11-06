@@ -1,28 +1,9 @@
 import { domainToASCII } from "node:url";
+import { DEFAULT_LOCALE, type Locale } from "../data/locales.js";
+import { FRAMES, HYPHENATED_SUFFIXES, NUMBERS, PREFIXES, SUFFIXES } from "../data/name-words.js";
 import { isRegistrableLabel } from "./parse.js";
 
-const PREFIXES = [
-  "get", "try", "my", "the", "use", "go", "hey", "join", "hello", "meet", "with", "our",
-  "all", "best", "we", "pure", "smart", "true", "top", "one", "new", "real", "next", "just",
-];
-const SUFFIXES = [
-  "hq", "app", "online", "site", "hub", "now", "web", "labs", "team", "pro", "group", "world", "studio", "direct", "plus", "home",
-  "shop", "store", "cloud", "digital", "media", "space", "zone", "tech", "systems", "global", "network", "works", "club", "co",
-];
-const HYPHENATED_SUFFIXES = ["app", "online", "hq", "site"];
-/** Popular names are often gone in every simple form, but rarely in these. */
-const FRAMES = [
-  ["get", "app"],
-  ["try", "hq"],
-  ["my", "online"],
-  ["the", "hub"],
-  ["use", "now"],
-  ["join", "team"],
-  ["go", "pro"],
-  ["hey", "site"],
-  ["meet", "labs"],
-  ["hello", "web"],
-] as const;
+const LATIN = /^[\p{Script=Latin}\p{Number}-]+$/u;
 
 /** Small changes to the name itself, which stay closest to what was typed. */
 function respellings(name: string): string[] {
@@ -48,16 +29,26 @@ function alternate<T>(first: readonly T[], second: readonly T[]): T[] {
   return mixed;
 }
 
-/** Other names to try on the same ending, closest first. A search stops as soon as it has enough. */
-export function similarNames(name: string): string[] {
-  const candidates = [
+/** The person's own language first, then the English words that work almost anywhere. */
+function latinCandidates(name: string, locale: Locale): string[] {
+  const inOrder = (words: Record<Locale, readonly string[]>) => (locale === DEFAULT_LOCALE ? words[DEFAULT_LOCALE] : [...words[locale], ...words[DEFAULT_LOCALE]]);
+  return [
     ...respellings(name),
     ...alternate(
-      SUFFIXES.map((suffix) => `${name}${suffix}`),
-      PREFIXES.map((prefix) => `${prefix}${name}`),
+      inOrder(SUFFIXES).map((suffix) => `${name}${suffix}`),
+      inOrder(PREFIXES).map((prefix) => `${prefix}${name}`),
     ),
     ...HYPHENATED_SUFFIXES.map((suffix) => `${name}-${suffix}`),
     ...FRAMES.map(([prefix, suffix]) => `${prefix}${name}${suffix}`),
   ];
+}
+
+function otherScriptCandidates(name: string): string[] {
+  return [...(name.includes("-") ? [name.replaceAll("-", "")] : []), ...NUMBERS.map((number) => `${name}${number}`), ...NUMBERS.map((number) => `${name}-${number}`)];
+}
+
+/** Other names to try on the same ending, closest first. A search stops as soon as it has enough. */
+export function similarNames(name: string, locale: Locale = DEFAULT_LOCALE): string[] {
+  const candidates = LATIN.test(name) ? latinCandidates(name, locale) : otherScriptCandidates(name);
   return [...new Set(candidates)].filter((candidate) => candidate !== name && isRegistrableLabel(domainToASCII(`${candidate}.test`).slice(0, -5)));
 }

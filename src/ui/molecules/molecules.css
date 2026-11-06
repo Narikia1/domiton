@@ -153,6 +153,35 @@
   gap: var(--spacing-inline-sm);
 }
 
+.language-switch {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-inline-xs);
+}
+
+.language-option {
+  min-height: var(--button-size-sm-height);
+  padding-inline: var(--spacing-inline-md);
+  border: var(--button-variant-secondary-border-width) solid transparent;
+  border-radius: var(--rounding-pill);
+  background: none;
+  color: var(--semantic-text-secondary);
+  cursor: pointer;
+  transition: background-color var(--button-transition-duration) var(--button-transition-easing);
+}
+
+.language-option:hover {
+  background: var(--semantic-action-secondary-background-hover);
+}
+
+.language-option[aria-pressed="true"] {
+  border-color: var(--semantic-action-secondary-border);
+  background: var(--semantic-action-secondary-background);
+  color: var(--semantic-text-primary);
+  font-weight: var(--typography-label-md-font-weight);
+}
+
 .skeleton {
   display: block;
   border-radius: var(--rounding-pill);

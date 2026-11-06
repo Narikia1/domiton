@@ -2,6 +2,9 @@ import { join, resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 import { app, BrowserWindow, ipcMain, Menu, nativeTheme, net, protocol, shell } from "electron";
 import { lookup } from "../core/lookup.js";
+import { BRAND } from "../data/brand.js";
+import { MAX_INPUT } from "../data/limits.js";
+import { isLocale } from "../data/locales.js";
 import { PAGE_DARK, PAGE_LIGHT } from "../ui/tokens/surfaces.js";
 
 /**
@@ -10,7 +13,6 @@ import { PAGE_DARK, PAGE_LIGHT } from "../ui/tokens/surfaces.js";
  */
 const ORIGIN = "app://domiton";
 const PAGES = resolve(__dirname, "..", "dist");
-const MAX_INPUT = 300;
 
 protocol.registerSchemesAsPrivileged([{ scheme: "app", privileges: { standard: true, secure: true, supportFetchAPI: true } }]);
 
@@ -33,13 +35,15 @@ function openWindow() {
     minWidth: 380,
     minHeight: 560,
     show: false,
-    title: "Domiton",
+    title: BRAND.name,
     backgroundColor: nativeTheme.shouldUseDarkColors ? PAGE_DARK : PAGE_LIGHT,
     titleBarStyle: isMac ? "hiddenInset" : "default",
     webPreferences: {
       preload: join(__dirname, "preload.cjs"),
       contextIsolation: true,
       sandbox: true,
+      // The system's own settings, which the page's language choice starts from.
+      additionalArguments: [`--domiton-languages=${app.getPreferredSystemLanguages().join(",")}`, `--domiton-country=${app.getLocaleCountryCode()}`],
     },
   });
   window.once("ready-to-show", () => window?.show());
@@ -70,9 +74,9 @@ if (!app.requestSingleInstanceLock()) {
     // Windows shows the default menu as a bar across the page. The Mac keeps it for copy and paste.
     if (process.platform !== "darwin") Menu.setApplicationMenu(null);
     servePages();
-    ipcMain.handle("domiton:lookup", (event, query: unknown) => {
+    ipcMain.handle("domiton:lookup", (event, query: unknown, locale: unknown) => {
       if (!event.senderFrame?.url.startsWith(`${ORIGIN}/`)) throw new Error("Lookup from an unknown page");
-      return lookup(typeof query === "string" ? query.slice(0, MAX_INPUT) : "");
+      return lookup(typeof query === "string" ? query.slice(0, MAX_INPUT) : "", isLocale(locale) ? locale : undefined);
     });
     openWindow();
   });

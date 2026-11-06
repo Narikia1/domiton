@@ -12,6 +12,7 @@
   },
   "scripts": {
     "tokens": "node scripts/generate-tokens.mjs",
+    "data": "node scripts/generate-hostinger-endings.mjs",
     "dev": "vite",
     "build": "vite build",
     "typecheck": "tsc --noEmit",
@@ -23,6 +24,7 @@
     "dist:win": "node scripts/build-desktop.mjs && electron-builder --win --x64 --publish never"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
     "@fontsource-variable/dm-sans": "5.3.0",
     "@fontsource-variable/space-grotesk": "5.3.0",
     "@playwright/test": "1.65.0",

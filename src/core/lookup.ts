@@ -1,10 +1,11 @@
+import { DEFAULT_LOCALE, type Locale } from "../data/locales.js";
 import { checkDomain } from "./check.js";
 import { parseDomain } from "./parse.js";
 import { similarNames } from "./similar.js";
 import type { LookupResult } from "./types.js";
 
 /** The one question every version of the app asks: the website's server and the desktop apps both call this. */
-export async function lookup(input: string): Promise<LookupResult> {
+export async function lookup(input: string, locale: Locale = DEFAULT_LOCALE): Promise<LookupResult> {
   const parsed = parseDomain(input);
   if (!parsed.ok) return parsed;
 
@@ -16,6 +17,6 @@ export async function lookup(input: string): Promise<LookupResult> {
     domain,
     name,
     ending,
-    similar: similarNames(name).map((similar) => `${similar}.${ending}`),
+    similar: similarNames(name, locale).map((similar) => `${similar}.${ending}`),
   };
 }

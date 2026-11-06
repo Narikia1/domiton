@@ -1,10 +1,6 @@
+import { LOOKUP } from "../data/limits.js";
+import { SOURCES, UNLISTED_RDAP } from "../data/registries.js";
 import type { Check } from "./types.js";
-
-/** IANA's list of which server answers for which ending. */
-const DIRECTORY_URL = "https://data.iana.org/rdap/dns.json";
-const DIRECTORY_LIFE = 24 * 60 * 60 * 1000;
-const DIRECTORY_RETRY = 5 * 60 * 1000;
-const TIMEOUT = 6000;
 
 type Directory = Map<string, string>;
 
@@ -14,9 +10,9 @@ let directory: { servers: Promise<Directory>; until: number } | undefined;
 function servers(): Promise<Directory> {
   if (directory && Date.now() < directory.until) return directory.servers;
   const current = {
-    until: Date.now() + DIRECTORY_LIFE,
+    until: Date.now() + LOOKUP.rdapListLife,
     servers: fetchDirectory().catch(() => {
-      current.until = Date.now() + DIRECTORY_RETRY;
+      current.until = Date.now() + LOOKUP.rdapListRetry;
       return new Map() as Directory;
     }),
   };
@@ -25,7 +21,7 @@ function servers(): Promise<Directory> {
 }
 
 async function fetchDirectory(): Promise<Directory> {
-  const response = await fetch(DIRECTORY_URL, { signal: AbortSignal.timeout(TIMEOUT) });
+  const response = await fetch(SOURCES.rdapList, { signal: AbortSignal.timeout(LOOKUP.rdapTimeout) });
   if (!response.ok) throw new Error(`RDAP directory answered ${response.status}`);
   return readDirectory(await response.json());
 }
@@ -40,15 +36,12 @@ export function readDirectory(body: unknown): Directory {
   return found;
 }
 
-/** Registries with a working server that IANA's list does not mention. */
-const UNLISTED: Directory = new Map([["ch", "https://rdap.nic.ch/"]]);
-
 /** The most specific server wins: a.co.uk looks for co.uk before uk. */
 export function serverFor(ascii: string, known: Directory): string | undefined {
   const labels = ascii.split(".");
   for (let i = 1; i < labels.length; i++) {
     const ending = labels.slice(i).join(".");
-    const server = known.get(ending) ?? UNLISTED.get(ending);
+    const server = known.get(ending) ?? UNLISTED_RDAP[ending];
     if (server) return server;
   }
   return undefined;
@@ -90,7 +83,7 @@ export async function rdapCheck(ascii: string): Promise<Check | null> {
 
   const response = await fetch(`${server}domain/${ascii}`, {
     headers: { accept: "application/rdap+json", "user-agent": "Domiton" },
-    signal: AbortSignal.timeout(TIMEOUT),
+    signal: AbortSignal.timeout(LOOKUP.rdapTimeout),
   });
   if (response.status === 404) {
     return response.headers.get("content-type")?.includes("html") ? null : { status: "free", source: "registry" };

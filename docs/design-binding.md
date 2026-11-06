@@ -45,6 +45,8 @@ The line uses `typography.eyebrow`'s size and tracking in the sans, to match Mon
 | Generated tokens (never edit) | `src/ui/tokens`, from `npm run tokens` |
 | Components | `src/ui/atoms`, `molecules`, `organisms`, `templates` |
 | Pages | `src/ui/pages` |
+| Words, in English, German and French | `src/ui/i18n` |
+| Everything else the app relies on | `src/data`, see [`data-ssot.md`](data-ssot.md) |
 
 ## Accessibility
 
@@ -64,7 +66,20 @@ The tokens allow some pairs that only reach AA as large text or as icons. So:
 
 ## Organisms
 
-`AppHeader`, `AppFooter`, `Verdict`, `AnswerPanel`, `SimilarNames`, `AnswersGuide`, `ProblemNotice`.
+`AppHeader`, `AppFooter`, `Verdict`, `AnswerPanel`, `SimilarNames`, `AnswersGuide`, `AffiliateNote`, `ProblemNotice`.
+
+## Enforcement
+
+These block a change. The rulebook also asks for two things not yet automated: visual regression and duplicate-component detection.
+
+| Rulebook check | Where |
+|---|---|
+| No raw colours or sizes | `tests/design.test.ts` |
+| Import boundaries between layers | `tests/design.test.ts` |
+| Token drift: regenerating changes nothing | `tests/design.test.ts`, on computers with Narikia's token folder |
+| Type checking | `npm run typecheck` |
+| Contrast over semantic token pairs, in both themes | `tests/design.test.ts` |
+| Accessibility on every screen and language | `e2e/desktop.spec.ts`, with axe |
 
 ## Exceptions
 

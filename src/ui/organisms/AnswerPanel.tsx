@@ -1,10 +1,11 @@
 import type { Found } from "../../core/types.js";
+import { useI18n } from "../i18n/I18nProvider.js";
 import { ListRow } from "../molecules/ListRow.js";
 import { Panel } from "../molecules/Panel.js";
 import { answerDetails } from "../text.js";
 
 export function AnswerPanel({ found }: { found: Found }) {
-  const { title, facts, note } = answerDetails(found);
+  const { title, facts, note } = answerDetails(useI18n(), found);
   return (
     <Panel title={title}>
       {facts.length > 0 && (

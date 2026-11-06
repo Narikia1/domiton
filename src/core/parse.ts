@@ -1,9 +1,7 @@
 import { domainToASCII, domainToUnicode } from "node:url";
 import { parse } from "tldts";
+import { DEFAULT_ENDING } from "../data/limits.js";
 import type { Refused } from "./types.js";
-
-/** Used when someone types a name without an ending. The app shows it in the ending field. */
-export const DEFAULT_ENDING = "com";
 
 export interface Parsed {
   ok: true;

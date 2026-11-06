@@ -7,12 +7,15 @@ import "./atoms/atoms.css";
 import "./molecules/molecules.css";
 import "./organisms/organisms.css";
 import "./templates/templates.css";
+import { I18nProvider } from "./i18n/I18nProvider.js";
 import { SearchPage } from "./pages/SearchPage.js";
 
 document.documentElement.dataset.platform = window.domiton?.platform ?? "web";
 
 createRoot(document.getElementById("root") as HTMLElement).render(
   <StrictMode>
-    <SearchPage />
+    <I18nProvider>
+      <SearchPage />
+    </I18nProvider>
   </StrictMode>,
 );

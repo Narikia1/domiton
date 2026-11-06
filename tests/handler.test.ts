@@ -36,6 +36,14 @@ describe("the lookup API", () => {
     expect(await response.json()).toEqual({ ok: false, problem: "bad-name" });
   });
 
+  it("passes on a language it speaks, and ignores any other", async () => {
+    answer.mockResolvedValue(found("free"));
+    await handleLookup(new Request("https://domiton.test/api/lookup?q=a.com&lang=de", { headers: { "x-forwarded-for": "10.1.0.1" } }));
+    expect(answer).toHaveBeenLastCalledWith("a.com", "de");
+    await handleLookup(new Request("https://domiton.test/api/lookup?q=a.com&lang=xx", { headers: { "x-forwarded-for": "10.1.0.2" } }));
+    expect(answer).toHaveBeenLastCalledWith("a.com", "en");
+  });
+
   it("won't read an enormous input", async () => {
     const response = await handleLookup(request("a".repeat(301)));
     expect(response.status).toBe(400);

@@ -38,11 +38,29 @@
 
 .app-footer {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-stack-sm);
+  margin-top: auto;
+  padding-top: var(--spacing-stack-lg);
+  color: var(--semantic-text-secondary);
+  text-align: center;
+}
+
+.app-footer-family {
+  display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-inline-sm);
-  margin-top: auto;
-  padding-top: var(--spacing-stack-lg);
+}
+
+.row-actions {
+  display: flex;
+  flex: none;
+  gap: var(--spacing-inline-sm);
+}
+
+.affiliate-note {
   color: var(--semantic-text-secondary);
   text-align: center;
 }
@@ -129,5 +147,18 @@
 @media (max-width: 640px) {
   .verdict-title {
     font-size: var(--typography-heading-2-font-size);
+  }
+
+  /* Two buttons would squeeze the name, so they drop to their own line. */
+  .list-row-item:has(.row-actions > :nth-child(2)) {
+    flex-wrap: wrap;
+  }
+
+  .list-row-item:has(.row-actions > :nth-child(2)) .list-row-text {
+    flex-basis: calc(100% - var(--button-size-md-height) - var(--spacing-inline-md));
+  }
+
+  .row-actions {
+    margin-inline-start: auto;
   }
 }

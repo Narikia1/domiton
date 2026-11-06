@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { findFree, type Progress } from "../../core/findFree.js";
 import type { Found, LookupResult } from "../../core/types.js";
+import type { Locale } from "../../data/locales.js";
 import { lookup } from "../client.js";
 
 export interface Search {
@@ -21,7 +22,7 @@ export function useSearch() {
     setSearch(null);
   }
 
-  async function run(input: string, onFound: (found: Found) => void) {
+  async function run(input: string, locale: Locale, onFound: (found: Found) => void) {
     const thisRun = ++currentRun.current;
     const isCancelled = () => thisRun !== currentRun.current;
     const query = input.trim();
@@ -32,13 +33,13 @@ export function useSearch() {
     }
 
     setSearch({ query, result: null, progress: null });
-    const result = await lookup(query);
+    const result = await lookup(query, locale);
     if (isCancelled()) return;
 
     setSearch({ query, result, progress: null });
     if (result.ok) {
       onFound(result);
-      await findFree(result.similar, lookup, (progress) => setSearch({ query, result, progress }), isCancelled);
+      await findFree(result.similar, (domain) => lookup(domain), (progress) => setSearch({ query, result, progress }), isCancelled);
     }
   }
 

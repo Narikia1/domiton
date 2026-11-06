@@ -1,5 +1,6 @@
 import { spawn, type ChildProcess } from "node:child_process";
 import { createRequire } from "node:module";
+import AxeBuilder from "@axe-core/playwright";
 import { chromium, expect, test, type Browser, type Page } from "@playwright/test";
 
 /**
@@ -47,6 +48,9 @@ test.beforeAll(async () => {
     : spawn(electron, [".", `--remote-debugging-port=${PORT}`], { stdio: "ignore" });
   browser = await attach();
   page = await appPage();
+  // The tests read English, whatever language this computer is set to.
+  await page.evaluate(() => localStorage.setItem("domiton.language", "en"));
+  await page.reload();
   page.on("console", (message) => {
     if (message.type() === "error") problems.push(message.text());
   });
@@ -133,7 +137,7 @@ test("the answer and each similar name can be copied", async () => {
 });
 
 test("New search goes back to the start", async () => {
-  await page.locator(".action").filter({ hasText: "New search" }).click();
+  await page.locator(".action").filter({ hasText: "New search" }).first().click();
   await expect(page.locator("#search")).toHaveValue("");
   await expect(page.getByRole("heading", { name: "Find your domain" })).toBeVisible();
   await expect(page.locator("#search")).toBeFocused();
@@ -164,6 +168,16 @@ test("WHOIS works in the app: .de has no RDAP server", async () => {
   await expect(page.locator(".big-name-ending")).toHaveText(".de");
 });
 
+test(".cd has no server in IANA's list, and still gets the registry's own answer", async () => {
+  await search("google.cd");
+  await expect(answer()).toHaveText("Taken", { timeout: 30_000 });
+  await expect(page.getByRole("region", { name: "Registration" })).toContainText("Registrar");
+  await search(`zqxv-domiton-${Date.now()}.cd`);
+  await expect(answer()).toHaveText("Free", { timeout: 30_000 });
+  // Hostinger doesn't sell .cd, so there's no link to it.
+  await expect(page.locator('a[rel~="sponsored"]')).toHaveCount(0);
+});
+
 test("a mistake gets a clear message and no lookup", async () => {
   await search("hello.notanending");
   await expect(page.getByRole("alert")).toHaveText(".notanending isn't an ending that exists. Check the spelling.");
@@ -179,6 +193,48 @@ test("everything can be reached with the keyboard", async () => {
   await page.locator("#search").focus();
   await page.keyboard.press("Tab");
   await expect(page.getByRole("button", { name: "Search" })).toBeFocused();
+});
+
+test("speaks German and French, and remembers the choice", async () => {
+  await page.getByRole("button", { name: "Deutsch" }).click();
+  await expect(page.getByRole("heading", { name: "Finden Sie Ihre Domain" })).toBeVisible();
+  await expect(page.locator("html")).toHaveAttribute("lang", "de");
+  await expect(page).toHaveTitle(/Domainname/);
+
+  await page.reload();
+  await expect(page.getByRole("heading", { name: "Finden Sie Ihre Domain" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Deutsch" })).toHaveAttribute("aria-pressed", "true");
+
+  await search("google.com");
+  await expect(answer()).toHaveText("Vergeben", { timeout: 30_000 });
+  await expect(page.getByRole("region", { name: "Registrierung" })).toContainText("Registriert");
+
+  await page.getByRole("button", { name: "Français" }).click();
+  await expect(answer()).toHaveText("Déjà pris");
+  await expect(page.locator("html")).toHaveAttribute("lang", "fr");
+
+  await page.getByRole("button", { name: "English" }).click();
+  await expect(answer()).toHaveText("Taken");
+});
+
+test("meets WCAG 2.2 AA on every screen, in every language", async () => {
+  const violations = async (screen: string) => {
+    const { violations } = await new AxeBuilder({ page }).setLegacyMode(true).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
+    return violations.map((violation) => `${screen}: ${violation.id} on ${violation.nodes.map((node) => node.target.join(" ")).join(", ")}`);
+  };
+  const found: string[] = [];
+  for (const language of ["English", "Deutsch", "Français"]) {
+    await page.getByRole("button", { name: language }).click();
+    await page.locator(".action").last().click().catch(() => undefined);
+    await expect(page.locator(".verdict-title")).toBeVisible();
+    found.push(...(await violations(`${language}, first screen`)));
+    await search("google.com");
+    await expect(answer()).toBeVisible({ timeout: 30_000 });
+    await expect(page.locator(".panel-aside").last()).not.toBeEmpty();
+    found.push(...(await violations(`${language}, answer`)));
+  }
+  await page.getByRole("button", { name: "English" }).click();
+  expect(found).toEqual([]);
 });
 
 test("the page loads nothing from outside and reports no errors", () => {

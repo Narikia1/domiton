@@ -2,6 +2,8 @@ import react from "@vitejs/plugin-react";
 import type { PreviewServer, ViteDevServer } from "vite";
 import { defineConfig, type Plugin } from "vitest/config";
 import { handleLookup } from "./src/server/handler.js";
+import { translator } from "./src/ui/i18n/messages.js";
+import { PAGE_DARK, PAGE_LIGHT } from "./src/ui/tokens/surfaces.js";
 
 /** Covers the website and the desktop apps. Their pages only ever load their own files. */
 const CONTENT_SECURITY_POLICY = [
@@ -24,6 +26,20 @@ function contentSecurityPolicy(): Plugin {
   };
 }
 
+/** The page's first words and colours come from the catalogues and the tokens, like everything else. The app then switches to the person's language. */
+function pageHead(): Plugin {
+  const { t } = translator("en");
+  return {
+    name: "domiton-page-head",
+    transformIndexHtml: (html) =>
+      html
+        .replace("__TITLE__", t("meta.title"))
+        .replace("__DESCRIPTION__", t("meta.description"))
+        .replace("__PAGE_LIGHT__", PAGE_LIGHT)
+        .replace("__PAGE_DARK__", PAGE_DARK),
+  };
+}
+
 /** Serves /api/lookup on this computer, the same way the deployed function does. */
 function lookupApi(): Plugin {
   const serve = (server: PreviewServer | ViteDevServer) => {
@@ -41,7 +57,7 @@ function lookupApi(): Plugin {
 export default defineConfig({
   // Relative, because the desktop apps load these same files from inside the app.
   base: "./",
-  plugins: [react(), contentSecurityPolicy(), lookupApi()],
+  plugins: [react(), pageHead(), contentSecurityPolicy(), lookupApi()],
   build: { outDir: "dist", assetsInlineLimit: 0 },
   test: { include: ["tests/**/*.test.ts"] },
 });

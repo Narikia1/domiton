@@ -1,11 +1,5 @@
+import { SEARCH } from "../data/limits.js";
 import type { LookupResult } from "./types.js";
-
-/** How many free names a search looks for. Only names that are hard to find free use all the suggestions. */
-export const TARGET = 12;
-/** Registries limit how fast they answer, so only a few names are asked about at once. */
-const AT_ONCE = 4;
-/** After this many names with no answer at all, nobody is answering this search. */
-const GIVE_UP_AFTER = 8;
 
 export interface FreeName {
   domain: string;
@@ -37,16 +31,16 @@ export async function findFree(
 
   const send = (running: boolean) =>
     report({
-      free: [...found].sort((a, b) => a.order - b.order).slice(0, TARGET).map((item) => item.name),
+      free: [...found].sort((a, b) => a.order - b.order).slice(0, SEARCH.target).map((item) => item.name),
       checked,
       total: candidates.length,
       unconfirmed,
       running,
     });
-  const nobodyAnswering = () => checked >= GIVE_UP_AFTER && unconfirmed === checked;
+  const nobodyAnswering = () => checked >= SEARCH.giveUpAfter && unconfirmed === checked;
 
   const worker = async () => {
-    while (!isCancelled() && next < candidates.length && found.length < TARGET && !nobodyAnswering()) {
+    while (!isCancelled() && next < candidates.length && found.length < SEARCH.target && !nobodyAnswering()) {
       const order = next++;
       const result = await ask(candidates[order] as string);
       if (isCancelled()) return;
@@ -58,6 +52,6 @@ export async function findFree(
   };
 
   send(true);
-  await Promise.all(Array.from({ length: AT_ONCE }, worker));
+  await Promise.all(Array.from({ length: SEARCH.atOnce }, worker));
   if (!isCancelled()) send(false);
 }

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { findFree, TARGET, type Progress } from "../src/core/findFree.js";
+import { findFree, type Progress } from "../src/core/findFree.js";
 import type { Check, LookupResult } from "../src/core/types.js";
+import { SEARCH } from "../src/data/limits.js";
 
 const found = (domain: string, status: Check["status"]): LookupResult => ({
   ok: true,
@@ -32,8 +33,8 @@ async function run(candidates: string[], answer: (domain: string, index: number)
 describe("finding free names", () => {
   it("stops asking once it has enough", async () => {
     const { last, asked } = await run(names(40), (domain) => found(domain, "free"));
-    expect(last.free).toHaveLength(TARGET);
-    expect(asked.length).toBeLessThan(TARGET + 4);
+    expect(last.free).toHaveLength(SEARCH.target);
+    expect(asked.length).toBeLessThan(SEARCH.target + 4);
     expect(last.running).toBe(false);
   });
 

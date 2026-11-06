@@ -45,4 +45,21 @@ describe("similar names", () => {
   it("works for accented names", () => {
     expect(similarNames("münchen")).toContain("münchenhq");
   });
+
+  it("offers words in the person's language first, then the English ones", () => {
+    const german = similarNames("kaffee", "de");
+    expect(german.indexOf("meinkaffee")).toBeGreaterThan(-1);
+    expect(german.indexOf("meinkaffee")).toBeLessThan(german.indexOf("getkaffee"));
+    const french = similarNames("cafe", "fr");
+    expect(french.indexOf("moncafe")).toBeLessThan(french.indexOf("getcafe"));
+    expect(similarNames("cafe")).not.toContain("moncafe");
+  });
+
+  it("never mixes scripts, which registries refuse", () => {
+    const cyrillic = similarNames("пример");
+    expect(cyrillic).toContain("пример24");
+    expect(cyrillic).toContain("пример-1");
+    for (const name of cyrillic) expect(name).not.toMatch(/[a-z]/);
+    for (const name of similarNames("例子")) expect(name).not.toMatch(/[a-z]/);
+  });
 });

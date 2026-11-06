@@ -1,9 +1,8 @@
 import { lookup } from "../core/lookup.js";
 import type { LookupResult } from "../core/types.js";
+import { MAX_INPUT, SERVER } from "../data/limits.js";
+import { DEFAULT_LOCALE, isLocale } from "../data/locales.js";
 
-const MAX_INPUT = 300;
-/** Most searches ask about 20 names and the hardest about 80, so this allows several a minute from one address. */
-const REQUESTS_PER_MINUTE = 240;
 const MINUTE = 60_000;
 
 const windows = new Map<string, { started: number; used: number }>();
@@ -17,7 +16,7 @@ export function overLimit(address: string, now = Date.now()): boolean {
     return false;
   }
   current.used++;
-  return current.used > REQUESTS_PER_MINUTE;
+  return current.used > SERVER.requestsPerMinute;
 }
 
 function reply(result: LookupResult, status: number, cache: string): Response {
@@ -28,11 +27,12 @@ export async function handleLookup(request: Request): Promise<Response> {
   const address = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
   if (overLimit(address)) return reply({ ok: false, problem: "too-many" }, 429, "no-store");
 
-  const query = new URL(request.url).searchParams.get("q") ?? "";
+  const { searchParams } = new URL(request.url);
+  const query = searchParams.get("q") ?? "";
+  const language = searchParams.get("lang");
   if (query.length > MAX_INPUT) return reply({ ok: false, problem: "bad-name" }, 400, "no-store");
 
-  const result = await lookup(query);
+  const result = await lookup(query, isLocale(language) ? language : DEFAULT_LOCALE);
   if (!result.ok) return reply(result, 400, "no-store");
-  // Answers are shared for a few minutes, except when the registry gave none.
-  return reply(result, 200, result.status === "unknown" ? "no-store" : "public, max-age=0, s-maxage=300");
+  return reply(result, 200, result.status === "unknown" ? "no-store" : `public, max-age=0, s-maxage=${SERVER.sharedFor}`);
 }

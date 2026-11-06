@@ -10,7 +10,7 @@ files:
   - dist-desktop/**/*
   - package.json
 asar: true
-electronLanguages: [en]
+electronLanguages: [en, de, fr]
 # Hardening: no Node.js mode, no inspector, only the app's own checked archive.
 electronFuses:
   runAsNode: false

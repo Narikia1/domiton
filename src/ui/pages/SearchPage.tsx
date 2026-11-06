@@ -1,5 +1,8 @@
 import { useRef, useState } from "react";
+import { hostingerLink } from "../../data/hostinger.js";
+import { useI18n } from "../i18n/I18nProvider.js";
 import { SearchField } from "../molecules/SearchField.js";
+import { AffiliateNote } from "../organisms/AffiliateNote.js";
 import { AnswerPanel } from "../organisms/AnswerPanel.js";
 import { AnswersGuide } from "../organisms/AnswersGuide.js";
 import { AppFooter } from "../organisms/AppFooter.js";
@@ -9,9 +12,11 @@ import { SimilarNames } from "../organisms/SimilarNames.js";
 import { VerdictAnswer, VerdictChecking, VerdictIdle } from "../organisms/Verdict.js";
 import { useSearch } from "../state/useSearch.js";
 import { AppShell, type Wash } from "../templates/AppShell.js";
-import { problemText, TEXT } from "../text.js";
+import { problemText } from "../text.js";
 
 export function SearchPage() {
+  const i18n = useI18n();
+  const { t, locale } = i18n;
   const [text, setText] = useState("");
   const field = useRef<HTMLInputElement>(null);
   const { search, run, reset } = useSearch();
@@ -21,9 +26,10 @@ export function SearchPage() {
   const problem = result && !result.ok ? result : null;
   const checking = search !== null && result === null;
   const wash: Wash = found?.status === "free" ? "success" : "brand";
+  const getLink = found ? hostingerLink(found.ending) : null;
 
   function submit() {
-    void run(text, (answer) => setText(answer.domain));
+    void run(text, locale, (answer) => setText(answer.domain));
     field.current?.focus();
   }
 
@@ -41,9 +47,9 @@ export function SearchPage() {
       lead={!checking && !found ? <VerdictIdle /> : undefined}
       search={
         <SearchField
-          label={TEXT.searchLabel}
-          placeholder={TEXT.searchPlaceholder}
-          submitLabel={TEXT.searchSubmit}
+          label={t("search.label")}
+          placeholder={t("search.placeholder")}
+          submitLabel={t("search.submit")}
           value={text}
           inputRef={field}
           invalid={problem !== null}
@@ -52,15 +58,16 @@ export function SearchPage() {
         />
       }
     >
-      {problem && <ProblemNotice message={problemText(problem)} />}
+      {problem && <ProblemNotice message={problemText(i18n, problem)} />}
 
       {checking && <VerdictChecking query={search.query} />}
-      {found && <VerdictAnswer key={found.domain} found={found} onNewSearch={startOver} />}
+      {found && <VerdictAnswer key={found.domain} found={found} getLink={getLink} onNewSearch={startOver} />}
 
       {found ? (
         <>
           <AnswerPanel found={found} />
-          <SimilarNames ending={found.ending} progress={search?.progress ?? null} />
+          <SimilarNames ending={found.ending} progress={search?.progress ?? null} getLink={getLink} />
+          {getLink && <AffiliateNote />}
         </>
       ) : (
         !checking && <AnswersGuide />
