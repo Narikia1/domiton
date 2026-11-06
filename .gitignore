@@ -1,0 +1,10 @@
+node_modules/
+dist/
+dist-desktop/
+release/
+.vercel/
+test-results/
+playwright-report/
+build/icon-*.png
+.claude/
+.DS_Store

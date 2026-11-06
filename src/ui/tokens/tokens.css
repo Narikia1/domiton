@@ -1,0 +1,607 @@
+/* Generated from Narikia's design tokens by scripts/generate-tokens.mjs. Do not edit. */
+
+:root {
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --animation-hover-duration: 150ms;
+  --animation-hover-easing: cubic-bezier(0.2, 0, 0, 1);
+  --animation-press-duration: 0ms;
+  --animation-press-easing: cubic-bezier(0.2, 0, 0, 1);
+  --animation-enter-duration: 200ms;
+  --animation-enter-easing: cubic-bezier(0, 0, 0, 1);
+  --animation-exit-duration: 150ms;
+  --animation-exit-easing: cubic-bezier(0.3, 0, 1, 1);
+  --animation-overlay-duration: 300ms;
+  --animation-overlay-easing: cubic-bezier(0, 0, 0, 1);
+  --elevation-flat: none;
+  --elevation-raised: 0px 1px 3px 0px rgba(0,0,0,0.06);
+  --elevation-overlay: 0px 4px 12px -2px rgba(0,0,0,0.08);
+  --elevation-modal: 0px 12px 32px -8px rgba(0,0,0,0.12);
+  --elevation-focus: 0px 0px 0px 3px rgba(66,133,244,0.45);
+  --elevation-transition-rest-opacity: 0;
+  --elevation-transition-hover-opacity: 1;
+  --elevation-transition-duration: 150ms;
+  --elevation-transition-easing: cubic-bezier(0.2, 0, 0, 1);
+  --rounding-control: 8px;
+  --rounding-card: 12px;
+  --rounding-panel: 16px;
+  --rounding-chip: 4px;
+  --rounding-pill: 9999px;
+  --rounding-none: 0px;
+  --spacing-inline-xs: 4px;
+  --spacing-inline-sm: 8px;
+  --spacing-inline-md: 12px;
+  --spacing-inline-lg: 16px;
+  --spacing-stack-xs: 4px;
+  --spacing-stack-sm: 8px;
+  --spacing-stack-md: 16px;
+  --spacing-stack-lg: 24px;
+  --spacing-stack-xl: 32px;
+  --spacing-inset-xs: 8px;
+  --spacing-inset-sm: 12px;
+  --spacing-inset-md: 16px;
+  --spacing-inset-lg: 24px;
+  --spacing-inset-xl: 32px;
+  --spacing-section-sm: 48px;
+  --spacing-section-md: 64px;
+  --spacing-section-lg: 80px;
+  --spacing-gutter-mobile: 16px;
+  --spacing-gutter-tablet: 24px;
+  --spacing-gutter-desktop: 32px;
+  --typography-display-font-family: "Space Grotesk", Helvetica, Arial, system-ui, sans-serif;
+  --typography-display-font-size: 60px;
+  --typography-display-font-weight: 700;
+  --typography-display-line-height: 1.1;
+  --typography-display-letter-spacing: -0.025em;
+  --typography-heading-1-font-family: "Space Grotesk", Helvetica, Arial, system-ui, sans-serif;
+  --typography-heading-1-font-size: 48px;
+  --typography-heading-1-font-weight: 700;
+  --typography-heading-1-line-height: 1.1;
+  --typography-heading-1-letter-spacing: -0.025em;
+  --typography-heading-2-font-family: "Space Grotesk", Helvetica, Arial, system-ui, sans-serif;
+  --typography-heading-2-font-size: 36px;
+  --typography-heading-2-font-weight: 700;
+  --typography-heading-2-line-height: 1.1;
+  --typography-heading-2-letter-spacing: -0.025em;
+  --typography-heading-3-font-family: "Space Grotesk", Helvetica, Arial, system-ui, sans-serif;
+  --typography-heading-3-font-size: 30px;
+  --typography-heading-3-font-weight: 700;
+  --typography-heading-3-line-height: 1.25;
+  --typography-heading-3-letter-spacing: -0.015em;
+  --typography-heading-4-font-family: "Space Grotesk", Helvetica, Arial, system-ui, sans-serif;
+  --typography-heading-4-font-size: 24px;
+  --typography-heading-4-font-weight: 700;
+  --typography-heading-4-line-height: 1.25;
+  --typography-heading-4-letter-spacing: -0.015em;
+  --typography-heading-5-font-family: "Space Grotesk", Helvetica, Arial, system-ui, sans-serif;
+  --typography-heading-5-font-size: 20px;
+  --typography-heading-5-font-weight: 700;
+  --typography-heading-5-line-height: 1.25;
+  --typography-heading-5-letter-spacing: 0em;
+  --typography-body-lg-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --typography-body-lg-font-size: 18px;
+  --typography-body-lg-font-weight: 400;
+  --typography-body-lg-line-height: 1.6;
+  --typography-body-lg-letter-spacing: 0em;
+  --typography-body-md-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --typography-body-md-font-size: 16px;
+  --typography-body-md-font-weight: 400;
+  --typography-body-md-line-height: 1.6;
+  --typography-body-md-letter-spacing: 0em;
+  --typography-body-sm-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --typography-body-sm-font-size: 14px;
+  --typography-body-sm-font-weight: 400;
+  --typography-body-sm-line-height: 1.5;
+  --typography-body-sm-letter-spacing: 0em;
+  --typography-label-md-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --typography-label-md-font-size: 14px;
+  --typography-label-md-font-weight: 500;
+  --typography-label-md-line-height: 1.25;
+  --typography-label-md-letter-spacing: 0em;
+  --typography-label-sm-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --typography-label-sm-font-size: 13px;
+  --typography-label-sm-font-weight: 500;
+  --typography-label-sm-line-height: 1.25;
+  --typography-label-sm-letter-spacing: 0em;
+  --typography-button-lg-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --typography-button-lg-font-size: 16px;
+  --typography-button-lg-font-weight: 700;
+  --typography-button-lg-line-height: 1.25;
+  --typography-button-lg-letter-spacing: 0em;
+  --typography-button-md-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --typography-button-md-font-size: 14px;
+  --typography-button-md-font-weight: 700;
+  --typography-button-md-line-height: 1.25;
+  --typography-button-md-letter-spacing: 0em;
+  --typography-button-sm-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --typography-button-sm-font-size: 13px;
+  --typography-button-sm-font-weight: 700;
+  --typography-button-sm-line-height: 1.25;
+  --typography-button-sm-letter-spacing: 0em;
+  --typography-caption-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --typography-caption-font-size: 12px;
+  --typography-caption-font-weight: 400;
+  --typography-caption-line-height: 1.5;
+  --typography-caption-letter-spacing: 0em;
+  --typography-eyebrow-font-family: ui-monospace, Menlo, monospace;
+  --typography-eyebrow-font-size: 12px;
+  --typography-eyebrow-font-weight: 500;
+  --typography-eyebrow-line-height: 1.25;
+  --typography-eyebrow-letter-spacing: 0.09em;
+  --typography-code-font-family: ui-monospace, Menlo, monospace;
+  --typography-code-font-size: 13px;
+  --typography-code-font-weight: 400;
+  --typography-code-line-height: 1.5;
+  --typography-code-letter-spacing: 0em;
+  --badge-radius: 4px;
+  --badge-gap: 4px;
+  --badge-border-width: 1px;
+  --badge-size-sm-height: 16px;
+  --badge-size-sm-padding-inline: 4px;
+  --badge-size-sm-typography-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --badge-size-sm-typography-font-size: 13px;
+  --badge-size-sm-typography-font-weight: 500;
+  --badge-size-sm-typography-line-height: 1.25;
+  --badge-size-sm-typography-letter-spacing: 0em;
+  --badge-size-md-height: 24px;
+  --badge-size-md-padding-inline: 8px;
+  --badge-size-md-typography-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --badge-size-md-typography-font-size: 14px;
+  --badge-size-md-typography-font-weight: 500;
+  --badge-size-md-typography-line-height: 1.25;
+  --badge-size-md-typography-letter-spacing: 0em;
+  --badge-variant-neutral-background: #F7F8FA;
+  --badge-variant-neutral-foreground: #4B5361;
+  --badge-variant-neutral-border-color: #EEF0F4;
+  --badge-variant-accent-background: #4285F4;
+  --badge-variant-accent-foreground: #FFFFFF;
+  --badge-variant-accent-border-color: transparent;
+  --badge-variant-highlight-background: #FBBC05;
+  --badge-variant-highlight-foreground: #0E1116;
+  --badge-variant-highlight-border-color: transparent;
+  --badge-variant-success-background: #1FA971;
+  --badge-variant-success-foreground: #FFFFFF;
+  --badge-variant-success-border-color: transparent;
+  --badge-variant-warning-background: #FBBC05;
+  --badge-variant-warning-foreground: #0E1116;
+  --badge-variant-warning-border-color: transparent;
+  --badge-variant-danger-background: #E5484D;
+  --badge-variant-danger-foreground: #FFFFFF;
+  --badge-variant-danger-border-color: transparent;
+  --button-radius: 8px;
+  --button-focus-ring: 0px 0px 0px 3px rgba(66,133,244,0.45);
+  --button-gap: 8px;
+  --button-transition-duration: 150ms;
+  --button-transition-easing: cubic-bezier(0.2, 0, 0, 1);
+  --button-size-sm-height: 32px;
+  --button-size-sm-padding-inline: 12px;
+  --button-size-sm-typography-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --button-size-sm-typography-font-size: 13px;
+  --button-size-sm-typography-font-weight: 700;
+  --button-size-sm-typography-line-height: 1.25;
+  --button-size-sm-typography-letter-spacing: 0em;
+  --button-size-sm-icon-size: 16px;
+  --button-size-md-height: 40px;
+  --button-size-md-padding-inline: 16px;
+  --button-size-md-typography-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --button-size-md-typography-font-size: 14px;
+  --button-size-md-typography-font-weight: 700;
+  --button-size-md-typography-line-height: 1.25;
+  --button-size-md-typography-letter-spacing: 0em;
+  --button-size-md-icon-size: 20px;
+  --button-size-lg-height: 48px;
+  --button-size-lg-padding-inline: 24px;
+  --button-size-lg-typography-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --button-size-lg-typography-font-size: 16px;
+  --button-size-lg-typography-font-weight: 700;
+  --button-size-lg-typography-line-height: 1.25;
+  --button-size-lg-typography-letter-spacing: 0em;
+  --button-size-lg-icon-size: 24px;
+  --button-variant-primary-background: #4285F4;
+  --button-variant-primary-background-hover: #2F6FDB;
+  --button-variant-primary-background-active: #2359B0;
+  --button-variant-primary-background-disabled: #DFE3EA;
+  --button-variant-primary-foreground: #FFFFFF;
+  --button-variant-primary-foreground-disabled: #98A1B0;
+  --button-variant-primary-border-color: transparent;
+  --button-variant-primary-border-width: 1px;
+  --button-variant-secondary-background: #F7F8FA;
+  --button-variant-secondary-background-hover: #EEF0F4;
+  --button-variant-secondary-background-active: #DFE3EA;
+  --button-variant-secondary-background-disabled: #F7F8FA;
+  --button-variant-secondary-foreground: #0E1116;
+  --button-variant-secondary-foreground-disabled: #98A1B0;
+  --button-variant-secondary-border-color: #DFE3EA;
+  --button-variant-secondary-border-width: 1px;
+  --button-variant-ghost-background: transparent;
+  --button-variant-ghost-background-hover: #F7F8FA;
+  --button-variant-ghost-background-active: #EEF0F4;
+  --button-variant-ghost-background-disabled: transparent;
+  --button-variant-ghost-foreground: #2359B0;
+  --button-variant-ghost-foreground-disabled: #98A1B0;
+  --button-variant-ghost-border-color: transparent;
+  --button-variant-ghost-border-width: 1px;
+  --button-state-disabled-opacity: 1;
+  --button-state-loading-spinner-size: 20px;
+  --card-radius: 12px;
+  --card-border-width: 1px;
+  --card-elevation: 0px 1px 3px 0px rgba(0,0,0,0.06);
+  --card-gap: 16px;
+  --card-padding-sm: 12px;
+  --card-padding-md: 16px;
+  --card-padding-lg: 24px;
+  --card-variant-default-background: #F7F8FA;
+  --card-variant-default-foreground: #0E1116;
+  --card-variant-default-border-color: #EEF0F4;
+  --card-variant-highlight-background: #FFF9E6;
+  --card-variant-highlight-foreground: #7C5A03;
+  --card-variant-highlight-border-color: #FEEFBF;
+  --card-interactive-background-hover: #FFFFFF;
+  --card-interactive-border-hover: #DFE3EA;
+  --card-interactive-focus-ring: 0px 0px 0px 3px rgba(66,133,244,0.45);
+  --card-interactive-hover-elevation-layer: 0px 4px 12px -2px rgba(0,0,0,0.08);
+  --card-interactive-hover-elevation-rest-opacity: 0;
+  --card-interactive-hover-elevation-hover-opacity: 1;
+  --card-interactive-lift: -2px;
+  --card-interactive-transition-duration: 150ms;
+  --card-interactive-transition-easing: cubic-bezier(0.2, 0, 0, 1);
+  --input-radius: 8px;
+  --input-focus-ring: 0px 0px 0px 3px rgba(66,133,244,0.45);
+  --input-border-width: 1px;
+  --input-gap: 4px;
+  --input-size-sm-height: 32px;
+  --input-size-sm-padding-inline: 8px;
+  --input-size-sm-typography-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --input-size-sm-typography-font-size: 14px;
+  --input-size-sm-typography-font-weight: 400;
+  --input-size-sm-typography-line-height: 1.5;
+  --input-size-sm-typography-letter-spacing: 0em;
+  --input-size-md-height: 40px;
+  --input-size-md-padding-inline: 12px;
+  --input-size-md-typography-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --input-size-md-typography-font-size: 16px;
+  --input-size-md-typography-font-weight: 400;
+  --input-size-md-typography-line-height: 1.6;
+  --input-size-md-typography-letter-spacing: 0em;
+  --input-size-lg-height: 48px;
+  --input-size-lg-padding-inline: 16px;
+  --input-size-lg-typography-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --input-size-lg-typography-font-size: 16px;
+  --input-size-lg-typography-font-weight: 400;
+  --input-size-lg-typography-line-height: 1.6;
+  --input-size-lg-typography-letter-spacing: 0em;
+  --input-background: #FFFFFF;
+  --input-background-disabled: #F7F8FA;
+  --input-background-readonly: #F7F8FA;
+  --input-foreground: #0E1116;
+  --input-foreground-disabled: #98A1B0;
+  --input-placeholder: #4B5361;
+  --input-border-default: #EEF0F4;
+  --input-border-hover: #DFE3EA;
+  --input-border-focus: #4285F4;
+  --input-border-disabled: #EEF0F4;
+  --input-border-error: #E5484D;
+  --input-border-success: #1FA971;
+  --input-label-typography-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --input-label-typography-font-size: 14px;
+  --input-label-typography-font-weight: 500;
+  --input-label-typography-line-height: 1.25;
+  --input-label-typography-letter-spacing: 0em;
+  --input-label-foreground: #0E1116;
+  --input-helper-typography-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --input-helper-typography-font-size: 12px;
+  --input-helper-typography-font-weight: 400;
+  --input-helper-typography-line-height: 1.5;
+  --input-helper-typography-letter-spacing: 0em;
+  --input-helper-foreground: #4B5361;
+  --input-error-typography-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --input-error-typography-font-size: 12px;
+  --input-error-typography-font-weight: 400;
+  --input-error-typography-line-height: 1.5;
+  --input-error-typography-letter-spacing: 0em;
+  --input-error-foreground: #E5484D;
+  --link-foreground: #2359B0;
+  --link-foreground-hover: #2359B0;
+  --link-foreground-visited: #2359B0;
+  --link-foreground-disabled: #98A1B0;
+  --link-focus-ring: 0px 0px 0px 3px rgba(66,133,244,0.45);
+  --link-radius: 4px;
+  --link-decoration-default: underline;
+  --link-decoration-hover: underline;
+  --link-decoration-thickness: 1px;
+  --link-decoration-underline-offset: 4px;
+  --link-transition-duration: 150ms;
+  --link-transition-easing: cubic-bezier(0.2, 0, 0, 1);
+  --link-variant-inline-typography-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --link-variant-inline-typography-font-size: 16px;
+  --link-variant-inline-typography-font-weight: 400;
+  --link-variant-inline-typography-line-height: 1.6;
+  --link-variant-inline-typography-letter-spacing: 0em;
+  --link-variant-standalone-typography-font-family: "DM Sans", Helvetica, Arial, system-ui, sans-serif;
+  --link-variant-standalone-typography-font-size: 14px;
+  --link-variant-standalone-typography-font-weight: 500;
+  --link-variant-standalone-typography-line-height: 1.25;
+  --link-variant-standalone-typography-letter-spacing: 0em;
+  --link-variant-standalone-gap: 4px;
+  --link-variant-standalone-icon-size: 16px;
+  --semantic-surface-page: #FFFFFF;
+  --semantic-surface-card: #F7F8FA;
+  --semantic-surface-raised: #FFFFFF;
+  --semantic-surface-sunken: #EEF0F4;
+  --semantic-surface-footer: #0E1116;
+  --semantic-surface-inverse: #0E1116;
+  --semantic-border-default: #EEF0F4;
+  --semantic-border-strong: #DFE3EA;
+  --semantic-border-focus: #4285F4;
+  --semantic-text-primary: #0E1116;
+  --semantic-text-secondary: #4B5361;
+  --semantic-text-disabled: #98A1B0;
+  --semantic-text-link: #2359B0;
+  --semantic-text-on-accent: #FFFFFF;
+  --semantic-text-on-highlight: #0E1116;
+  --semantic-text-on-inverse: #FFFFFF;
+  --semantic-text-warning: #7C5A03;
+  --semantic-display-accent: #4285F4;
+  --semantic-action-primary-background: #4285F4;
+  --semantic-action-primary-background-hover: #2F6FDB;
+  --semantic-action-primary-background-active: #2359B0;
+  --semantic-action-primary-background-disabled: #DFE3EA;
+  --semantic-action-primary-foreground: #FFFFFF;
+  --semantic-action-primary-foreground-disabled: #98A1B0;
+  --semantic-action-secondary-background: #F7F8FA;
+  --semantic-action-secondary-background-hover: #EEF0F4;
+  --semantic-action-secondary-background-active: #DFE3EA;
+  --semantic-action-secondary-background-disabled: #F7F8FA;
+  --semantic-action-secondary-foreground: #0E1116;
+  --semantic-action-secondary-border: #DFE3EA;
+  --semantic-action-ghost-background: transparent;
+  --semantic-action-ghost-background-hover: #F7F8FA;
+  --semantic-action-ghost-background-active: #EEF0F4;
+  --semantic-action-ghost-foreground: #2359B0;
+  --semantic-action-icon: #4285F4;
+  --semantic-highlight-background: #FBBC05;
+  --semantic-highlight-subtle: #FFF9E6;
+  --semantic-highlight-border: #FEEFBF;
+  --semantic-highlight-foreground: #0E1116;
+  --semantic-feedback-success-background: #1FA971;
+  --semantic-feedback-success-foreground: #FFFFFF;
+  --semantic-feedback-warning-background: #FBBC05;
+  --semantic-feedback-warning-foreground: #0E1116;
+  --semantic-feedback-danger-background: #E5484D;
+  --semantic-feedback-danger-foreground: #FFFFFF;
+  --semantic-feedback-info-background: #4285F4;
+  --semantic-feedback-info-foreground: #FFFFFF;
+}
+
+.type-display {
+  font-family: var(--typography-display-font-family);
+  font-size: var(--typography-display-font-size);
+  font-weight: var(--typography-display-font-weight);
+  line-height: var(--typography-display-line-height);
+  letter-spacing: var(--typography-display-letter-spacing);
+}
+
+.type-heading-1 {
+  font-family: var(--typography-heading-1-font-family);
+  font-size: var(--typography-heading-1-font-size);
+  font-weight: var(--typography-heading-1-font-weight);
+  line-height: var(--typography-heading-1-line-height);
+  letter-spacing: var(--typography-heading-1-letter-spacing);
+}
+
+.type-heading-2 {
+  font-family: var(--typography-heading-2-font-family);
+  font-size: var(--typography-heading-2-font-size);
+  font-weight: var(--typography-heading-2-font-weight);
+  line-height: var(--typography-heading-2-line-height);
+  letter-spacing: var(--typography-heading-2-letter-spacing);
+}
+
+.type-heading-3 {
+  font-family: var(--typography-heading-3-font-family);
+  font-size: var(--typography-heading-3-font-size);
+  font-weight: var(--typography-heading-3-font-weight);
+  line-height: var(--typography-heading-3-line-height);
+  letter-spacing: var(--typography-heading-3-letter-spacing);
+}
+
+.type-heading-4 {
+  font-family: var(--typography-heading-4-font-family);
+  font-size: var(--typography-heading-4-font-size);
+  font-weight: var(--typography-heading-4-font-weight);
+  line-height: var(--typography-heading-4-line-height);
+  letter-spacing: var(--typography-heading-4-letter-spacing);
+}
+
+.type-heading-5 {
+  font-family: var(--typography-heading-5-font-family);
+  font-size: var(--typography-heading-5-font-size);
+  font-weight: var(--typography-heading-5-font-weight);
+  line-height: var(--typography-heading-5-line-height);
+  letter-spacing: var(--typography-heading-5-letter-spacing);
+}
+
+.type-body-lg {
+  font-family: var(--typography-body-lg-font-family);
+  font-size: var(--typography-body-lg-font-size);
+  font-weight: var(--typography-body-lg-font-weight);
+  line-height: var(--typography-body-lg-line-height);
+  letter-spacing: var(--typography-body-lg-letter-spacing);
+}
+
+.type-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
+
+.type-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+
+.type-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+
+.type-label-sm {
+  font-family: var(--typography-label-sm-font-family);
+  font-size: var(--typography-label-sm-font-size);
+  font-weight: var(--typography-label-sm-font-weight);
+  line-height: var(--typography-label-sm-line-height);
+  letter-spacing: var(--typography-label-sm-letter-spacing);
+}
+
+.type-button-lg {
+  font-family: var(--typography-button-lg-font-family);
+  font-size: var(--typography-button-lg-font-size);
+  font-weight: var(--typography-button-lg-font-weight);
+  line-height: var(--typography-button-lg-line-height);
+  letter-spacing: var(--typography-button-lg-letter-spacing);
+}
+
+.type-button-md {
+  font-family: var(--typography-button-md-font-family);
+  font-size: var(--typography-button-md-font-size);
+  font-weight: var(--typography-button-md-font-weight);
+  line-height: var(--typography-button-md-line-height);
+  letter-spacing: var(--typography-button-md-letter-spacing);
+}
+
+.type-button-sm {
+  font-family: var(--typography-button-sm-font-family);
+  font-size: var(--typography-button-sm-font-size);
+  font-weight: var(--typography-button-sm-font-weight);
+  line-height: var(--typography-button-sm-line-height);
+  letter-spacing: var(--typography-button-sm-letter-spacing);
+}
+
+.type-caption {
+  font-family: var(--typography-caption-font-family);
+  font-size: var(--typography-caption-font-size);
+  font-weight: var(--typography-caption-font-weight);
+  line-height: var(--typography-caption-line-height);
+  letter-spacing: var(--typography-caption-letter-spacing);
+}
+
+.type-eyebrow {
+  font-family: var(--typography-eyebrow-font-family);
+  font-size: var(--typography-eyebrow-font-size);
+  font-weight: var(--typography-eyebrow-font-weight);
+  line-height: var(--typography-eyebrow-line-height);
+  letter-spacing: var(--typography-eyebrow-letter-spacing);
+}
+
+.type-code {
+  font-family: var(--typography-code-font-family);
+  font-size: var(--typography-code-font-size);
+  font-weight: var(--typography-code-font-weight);
+  line-height: var(--typography-code-line-height);
+  letter-spacing: var(--typography-code-letter-spacing);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --badge-variant-neutral-background: #141A24;
+    --badge-variant-neutral-foreground: #9AA4B6;
+    --badge-variant-neutral-border-color: rgba(255,255,255,0.09);
+    --badge-variant-success-foreground: #0E1116;
+    --button-variant-primary-background-hover: #659AF6;
+    --button-variant-primary-background-active: #2F6FDB;
+    --button-variant-primary-background-disabled: #16202F;
+    --button-variant-primary-foreground-disabled: #4B5361;
+    --button-variant-secondary-background: #141A24;
+    --button-variant-secondary-background-hover: #16202F;
+    --button-variant-secondary-background-active: #1F242C;
+    --button-variant-secondary-background-disabled: #141A24;
+    --button-variant-secondary-foreground: #F4F6FA;
+    --button-variant-secondary-foreground-disabled: #4B5361;
+    --button-variant-secondary-border-color: rgba(255,255,255,0.09);
+    --button-variant-ghost-background-hover: #141A24;
+    --button-variant-ghost-background-active: #16202F;
+    --button-variant-ghost-foreground: #8AB1F8;
+    --button-variant-ghost-foreground-disabled: #4B5361;
+    --card-variant-default-background: #141A24;
+    --card-variant-default-foreground: #F4F6FA;
+    --card-variant-default-border-color: rgba(255,255,255,0.09);
+    --card-variant-highlight-background: rgba(251,188,5,0.12);
+    --card-variant-highlight-foreground: #FDD25A;
+    --card-variant-highlight-border-color: rgba(251,188,5,0.28);
+    --card-interactive-background-hover: #16202F;
+    --card-interactive-border-hover: rgba(255,255,255,0.16);
+    --input-background: #0B0E14;
+    --input-background-disabled: #141A24;
+    --input-background-readonly: #141A24;
+    --input-foreground: #F4F6FA;
+    --input-foreground-disabled: #4B5361;
+    --input-placeholder: #9AA4B6;
+    --input-border-default: rgba(255,255,255,0.09);
+    --input-border-hover: rgba(255,255,255,0.16);
+    --input-border-focus: #659AF6;
+    --input-border-disabled: rgba(255,255,255,0.09);
+    --input-label-foreground: #F4F6FA;
+    --input-helper-foreground: #9AA4B6;
+    --link-foreground: #8AB1F8;
+    --link-foreground-hover: #8AB1F8;
+    --link-foreground-visited: #8AB1F8;
+    --link-foreground-disabled: #4B5361;
+    --semantic-surface-page: #0B0E14;
+    --semantic-surface-card: #141A24;
+    --semantic-surface-raised: #16202F;
+    --semantic-surface-sunken: #06080B;
+    --semantic-surface-footer: #06080B;
+    --semantic-surface-inverse: #FFFFFF;
+    --semantic-border-default: rgba(255,255,255,0.09);
+    --semantic-border-strong: rgba(255,255,255,0.16);
+    --semantic-border-focus: #659AF6;
+    --semantic-text-primary: #F4F6FA;
+    --semantic-text-secondary: #9AA4B6;
+    --semantic-text-disabled: #4B5361;
+    --semantic-text-link: #8AB1F8;
+    --semantic-text-on-inverse: #0E1116;
+    --semantic-text-warning: #FDD25A;
+    --semantic-display-accent: #8AB1F8;
+    --semantic-action-primary-background-hover: #659AF6;
+    --semantic-action-primary-background-active: #2F6FDB;
+    --semantic-action-primary-background-disabled: #16202F;
+    --semantic-action-primary-foreground-disabled: #4B5361;
+    --semantic-action-secondary-background: #141A24;
+    --semantic-action-secondary-background-hover: #16202F;
+    --semantic-action-secondary-background-active: #1F242C;
+    --semantic-action-secondary-background-disabled: #141A24;
+    --semantic-action-secondary-foreground: #F4F6FA;
+    --semantic-action-secondary-border: rgba(255,255,255,0.09);
+    --semantic-action-ghost-background-hover: #141A24;
+    --semantic-action-ghost-background-active: #16202F;
+    --semantic-action-ghost-foreground: #8AB1F8;
+    --semantic-action-icon: #8AB1F8;
+    --semantic-highlight-subtle: rgba(251,188,5,0.12);
+    --semantic-highlight-border: rgba(251,188,5,0.28);
+    --semantic-feedback-success-foreground: #0E1116;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --animation-hover-duration: 0ms;
+    --animation-press-duration: 0ms;
+    --animation-enter-duration: 0ms;
+    --animation-exit-duration: 0ms;
+    --animation-overlay-duration: 0ms;
+    --elevation-transition-duration: 0ms;
+    --button-transition-duration: 0ms;
+    --card-interactive-transition-duration: 0ms;
+    --link-transition-duration: 0ms;
+  }
+}

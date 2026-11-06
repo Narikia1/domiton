@@ -1,0 +1,109 @@
+.icon {
+  display: block;
+  flex: none;
+  width: var(--button-size-md-icon-size);
+  height: var(--button-size-md-icon-size);
+}
+
+.button {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--button-gap);
+  min-height: var(--button-size-md-height);
+  padding-inline: var(--button-size-md-padding-inline);
+  border-width: var(--button-variant-secondary-border-width);
+  border-style: solid;
+  border-radius: var(--rounding-pill);
+  cursor: pointer;
+  transition:
+    background-color var(--button-transition-duration) var(--button-transition-easing),
+    border-color var(--button-transition-duration) var(--button-transition-easing);
+}
+
+.button-icon {
+  width: var(--button-size-md-height);
+  padding-inline: 0;
+}
+
+.button-primary {
+  border-color: var(--button-variant-primary-border-color);
+  background: var(--button-variant-primary-background);
+  color: var(--button-variant-primary-foreground);
+}
+
+.button-primary:hover {
+  background: var(--button-variant-primary-background-hover);
+}
+
+.button-primary:active {
+  background: var(--button-variant-primary-background-active);
+}
+
+.button-secondary {
+  border-color: var(--button-variant-secondary-border-color);
+  background: var(--button-variant-secondary-background);
+  color: var(--button-variant-secondary-foreground);
+}
+
+.button-secondary:hover {
+  background: var(--button-variant-secondary-background-hover);
+}
+
+.button-secondary:active {
+  background: var(--button-variant-secondary-background-active);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: var(--spacing-inline-xs) var(--spacing-inline-lg);
+  border-radius: var(--rounding-pill);
+  background: var(--status-background);
+  color: var(--status-foreground);
+}
+
+.status-badge[data-busy="true"] {
+  animation: pulse calc(var(--animation-overlay-duration) * 4) ease-in-out infinite;
+}
+
+.status-success {
+  --status-background: var(--badge-variant-success-background);
+  --status-foreground: var(--badge-variant-success-foreground);
+}
+
+.status-danger {
+  --status-background: var(--badge-variant-danger-background);
+  --status-foreground: var(--badge-variant-danger-foreground);
+}
+
+.status-warning {
+  --status-background: var(--badge-variant-warning-background);
+  --status-foreground: var(--badge-variant-warning-foreground);
+}
+
+.status-neutral {
+  --status-background: var(--semantic-surface-sunken);
+  --status-foreground: var(--semantic-text-primary);
+}
+
+.status-dot {
+  display: block;
+  flex: none;
+  width: var(--spacing-inline-md);
+  height: var(--spacing-inline-md);
+  border-radius: var(--rounding-pill);
+  background: var(--status-background);
+}
+
+.avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: var(--button-size-md-height);
+  height: var(--button-size-md-height);
+  border: var(--card-border-width) solid var(--semantic-border-default);
+  border-radius: var(--rounding-pill);
+  background: var(--semantic-surface-raised);
+  color: var(--semantic-display-accent);
+}

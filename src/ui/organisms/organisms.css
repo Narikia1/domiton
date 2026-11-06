@@ -1,0 +1,122 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-inline-md);
+}
+
+.app-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-inline-md);
+}
+
+.app-mark {
+  display: block;
+  width: var(--button-size-md-height);
+  height: var(--button-size-md-height);
+}
+
+.family-chip {
+  padding: var(--spacing-inline-xs) var(--spacing-inline-md);
+  border: var(--badge-border-width) solid var(--badge-variant-neutral-border-color);
+  border-radius: var(--rounding-pill);
+  background: var(--badge-variant-neutral-background);
+  color: var(--badge-variant-neutral-foreground);
+}
+
+.app-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-inline-sm);
+  margin-top: auto;
+  padding-top: var(--spacing-stack-lg);
+  color: var(--semantic-text-secondary);
+  text-align: center;
+}
+
+.narikia-logo {
+  display: block;
+  flex: none;
+  height: var(--spacing-stack-md);
+}
+
+/* The answer, centred like a balance. Everything in it is sized from the width it has. */
+.verdict {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-stack-lg);
+  padding-block: var(--spacing-stack-lg);
+  text-align: center;
+  container-type: inline-size;
+  animation: enter var(--animation-enter-duration) var(--animation-enter-easing) both;
+}
+
+.verdict-title {
+  letter-spacing: var(--typography-display-letter-spacing);
+}
+
+.verdict-lead {
+  max-width: var(--breakpoint-sm);
+  color: var(--semantic-text-secondary);
+}
+
+.verdict-answer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-stack-md);
+  width: 100%;
+}
+
+/* Long names shrink to fit. Space Grotesk averages about 0.62em a letter at this weight. */
+.big-name {
+  width: 100%;
+  font-size: clamp(var(--typography-heading-4-font-size), calc(100cqw / (var(--letters) * 0.62)), var(--typography-display-font-size));
+  overflow-wrap: anywhere;
+}
+
+/* The ending is the cents to the name's balance. */
+.big-name-ending {
+  color: var(--semantic-text-secondary);
+  font-size: 0.6em;
+}
+
+.verdict-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-stack-xl);
+}
+
+.fact-value {
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.list-row-fact .list-row-text {
+  flex: none;
+}
+
+.list-row-fact .fact-value {
+  flex: 1;
+  min-width: 0;
+}
+
+.panel-note {
+  color: var(--semantic-text-secondary);
+}
+
+.problem-notice {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-inline-sm);
+  padding-inline: var(--spacing-inline-lg);
+}
+
+@media (max-width: 640px) {
+  .verdict-title {
+    font-size: var(--typography-heading-2-font-size);
+  }
+}

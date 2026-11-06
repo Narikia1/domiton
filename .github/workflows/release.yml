@@ -1,0 +1,155 @@
+# Builds Domiton for Mac and Windows on real machines of each kind, tests each
+# built app against the real registries, and publishes the installers as a
+# GitHub release. Started by hand. Macs and Windows machines are free for public
+# repositories, and this one has to stay public to keep them free.
+#
+# The Mac installer is signed, then sent to Apple once both systems have passed.
+# Apple can take days to answer for a new account, so the release doesn't wait:
+# its answer attaches to the file it was sent, and a Mac asks for it when opening
+# the app. The README's Release section says how to staple it afterwards.
+name: Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - name: Mac
+            os: macos-15
+            file: Domiton-mac.dmg
+            app: release/mac-universal/Domiton.app/Contents/MacOS/Domiton
+          - name: Windows
+            os: windows-2025
+            file: Domiton-Setup.exe
+            app: release/win-unpacked/Domiton.exe
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      # The certificate reaches only this step.
+      - name: Installer (Mac, signed)
+        if: matrix.name == 'Mac'
+        env:
+          CSC_LINK: ${{ secrets.MAC_CERTIFICATE_P12 }}
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
+        run: npm run dist:mac
+      - name: Installer (Windows)
+        if: matrix.name == 'Windows'
+        run: npm run dist:win
+      - name: The signature is sound
+        if: matrix.name == 'Mac'
+        shell: bash
+        run: |
+          app=release/mac-universal/Domiton.app
+          codesign --verify --deep --strict --verbose=2 "$app"
+          codesign --verify --verbose=2 release/Domiton-mac.dmg
+          details=$(codesign --display --verbose=2 "$app" 2>&1)
+          grep -q "Authority=Developer ID Application" <<<"$details"
+          grep -q "(runtime)" <<<"$details"
+          grep -q "Timestamp=" <<<"$details"
+      - name: The built app on this system, against the real registries
+        env:
+          DOMITON_APP: ${{ matrix.app }}
+        run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: screenshots-${{ matrix.name }}
+          path: test-results/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}
+          path: release/${{ matrix.file }}
+          if-no-files-found: error
+
+  apple:
+    name: Send to Apple
+    needs: build
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Mac
+      - name: Notarize, without waiting for days
+        shell: bash
+        env:
+          KEY: ${{ secrets.APPLE_API_KEY_P8 }}
+          KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+        run: |
+          key="$RUNNER_TEMP/AuthKey.p8"
+          trap 'rm -f "$key"' EXIT
+          printf '%s' "$KEY" | base64 --decode > "$key"
+          chmod 600 "$key"
+          auth=(--key "$key" --key-id "$KEY_ID" --issuer "$ISSUER")
+
+          id=$(xcrun notarytool submit Domiton-mac.dmg "${auth[@]}" --no-wait --output-format json | jq -r .id)
+          echo "Apple's submission: $id"
+          xcrun notarytool wait "$id" "${auth[@]}" --timeout 15m || true
+          status=$(xcrun notarytool info "$id" "${auth[@]}" --output-format json | jq -r .status)
+          echo "Apple says: $status"
+
+          case "$status" in
+            Accepted) xcrun stapler staple Domiton-mac.dmg ;;
+            "In Progress") echo "Still with Apple. The file is published as it is." ;;
+            *) xcrun notarytool log "$id" "${auth[@]}"; exit 1 ;;
+          esac
+      # A stapled file differs from the one built, so the release takes this one.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Mac-for-release
+          path: Domiton-mac.dmg
+          if-no-files-found: error
+
+  publish:
+    needs: apple
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          pattern: "{Mac-for-release,Windows}"
+          merge-multiple: true
+      - name: Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          (cd out && sha256sum Domiton-mac.dmg Domiton-Setup.exe > SHA256SUMS.txt)
+          gh release create "v$version" out/Domiton-mac.dmg out/Domiton-Setup.exe out/SHA256SUMS.txt \
+            --title "Domiton $version" --latest --notes "$(cat <<'NOTES'
+          Domiton for Mac (macOS 12 or later, Apple silicon and Intel) and Windows (10 or 11, 64-bit). It's also on the web at https://domiton.narikia.com.
+
+          **Mac:** if macOS says it can't verify the app, Apple hasn't finished checking this version. Open System Settings, then Privacy & Security, and choose Open Anyway.
+
+          **Windows:** SmartScreen warns because the app isn't signed with a Microsoft certificate. Choose More info, then Run anyway.
+          NOTES
+          )"

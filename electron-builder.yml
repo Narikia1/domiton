@@ -1,0 +1,49 @@
+# Domiton for Mac and Windows. The release workflow builds these on real Macs and Windows machines.
+appId: com.narikia.domiton
+productName: Domiton
+copyright: © Narikia
+directories:
+  output: release
+  buildResources: build
+files:
+  - dist/**/*
+  - dist-desktop/**/*
+  - package.json
+asar: true
+electronLanguages: [en]
+# Hardening: no Node.js mode, no inspector, only the app's own checked archive.
+electronFuses:
+  runAsNode: false
+  enableCookieEncryption: true
+  enableNodeOptionsEnvironmentVariable: false
+  enableNodeCliInspectArguments: false
+  enableEmbeddedAsarIntegrityValidation: true
+  onlyLoadAppFromAsar: true
+  loadBrowserProcessSpecificV8Snapshot: false
+  grantFileProtocolExtraPrivileges: false
+mac:
+  target:
+    - target: dmg
+      arch: [universal]
+  icon: build/icon-mac.png
+  category: public.app-category.utilities
+  minimumSystemVersion: "12.0"
+  hardenedRuntime: true
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+dmg:
+  artifactName: Domiton-mac.dmg
+  title: Domiton
+  # Only when a certificate is present. Apple recommends it for a disk image that gets notarized.
+  sign: true
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  icon: build/icon-win.png
+nsis:
+  oneClick: true
+  perMachine: false
+  artifactName: Domiton-Setup.exe
+  shortcutName: Domiton
+publish: null

@@ -1,0 +1,177 @@
+.search {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-inline-sm);
+  min-height: var(--input-size-lg-height);
+  padding: var(--spacing-inline-xs);
+  padding-left: var(--input-size-lg-padding-inline);
+  border: var(--input-border-width) solid var(--input-border-default);
+  border-radius: var(--rounding-pill);
+  background: var(--input-background);
+  box-shadow: var(--elevation-raised);
+  transition: border-color var(--animation-hover-duration) var(--animation-hover-easing);
+}
+
+.search:hover {
+  border-color: var(--input-border-hover);
+}
+
+.search:focus-within {
+  border-color: var(--input-border-focus);
+  box-shadow: var(--input-focus-ring);
+}
+
+.search-icon {
+  color: var(--semantic-text-secondary);
+}
+
+.search-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--input-foreground);
+}
+
+/* The whole pill shows the focus, so the field inside it doesn't need its own. */
+.search-input:focus-visible {
+  outline: 0;
+  box-shadow: none;
+}
+
+.search-input::placeholder {
+  color: var(--input-placeholder);
+  opacity: 1;
+}
+
+.action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-stack-sm);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--semantic-text-primary);
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.action-circle {
+  display: grid;
+  place-items: center;
+  width: var(--button-size-lg-height);
+  height: var(--button-size-lg-height);
+  border: var(--button-variant-secondary-border-width) solid var(--button-variant-secondary-border-color);
+  border-radius: var(--rounding-pill);
+  background: var(--button-variant-secondary-background);
+  color: var(--semantic-action-icon);
+  transition: background-color var(--animation-hover-duration) var(--animation-hover-easing);
+}
+
+.action:hover .action-circle {
+  background: var(--button-variant-secondary-background-hover);
+}
+
+.action:active .action-circle {
+  background: var(--button-variant-secondary-background-active);
+}
+
+.action:focus-visible {
+  outline: 0;
+  box-shadow: none;
+}
+
+.action:focus-visible .action-circle {
+  outline: var(--input-border-width) solid var(--semantic-border-focus);
+  outline-offset: var(--input-border-width);
+  box-shadow: var(--elevation-focus);
+}
+
+.panel {
+  padding: var(--card-padding-md);
+  border: var(--card-border-width) solid var(--card-variant-default-border-color);
+  border-radius: var(--rounding-panel);
+  background: var(--card-variant-default-background);
+  box-shadow: var(--card-elevation);
+  color: var(--card-variant-default-foreground);
+  animation: enter var(--animation-enter-duration) var(--animation-enter-easing) both;
+}
+
+.panel-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-stack-xs) var(--spacing-inline-lg);
+  margin-bottom: var(--spacing-stack-sm);
+}
+
+.panel-aside,
+.list-row-subtitle {
+  color: var(--semantic-text-secondary);
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-inline-md);
+  min-height: var(--button-size-lg-height);
+  padding-block: var(--spacing-inset-xs);
+}
+
+.list-row-item {
+  animation: enter var(--animation-enter-duration) var(--animation-enter-easing) both;
+}
+
+.list-row-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--spacing-stack-xs);
+  min-width: 0;
+}
+
+.list-row-title {
+  overflow-wrap: anywhere;
+}
+
+.list-row-item .list-row-title {
+  font-weight: var(--typography-label-md-font-weight);
+}
+
+.list-row-fact .list-row-title {
+  color: var(--semantic-text-secondary);
+}
+
+.list-row-subtitle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-inline-sm);
+}
+
+.skeleton {
+  display: block;
+  border-radius: var(--rounding-pill);
+  background: var(--semantic-border-strong);
+  animation: pulse calc(var(--animation-overlay-duration) * 4) ease-in-out infinite;
+}
+
+.skeleton-circle {
+  flex: none;
+  width: var(--button-size-md-height);
+  height: var(--button-size-md-height);
+}
+
+.skeleton-title {
+  width: 60%;
+  height: var(--spacing-inline-lg);
+}
+
+.skeleton-subtitle {
+  width: 30%;
+  height: var(--spacing-inline-md);
+}

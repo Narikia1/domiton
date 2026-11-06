@@ -1,0 +1,44 @@
+{
+  "name": "domiton",
+  "productName": "Domiton",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Check whether a domain name is free and find similar names on the same ending. A Narikia app in the DotGo family.",
+  "author": "Narikia",
+  "type": "module",
+  "main": "dist-desktop/main.cjs",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "tokens": "node scripts/generate-tokens.mjs",
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:live": "LIVE=1 vitest run tests/live.test.ts",
+    "desktop": "node scripts/build-desktop.mjs && electron .",
+    "test:e2e": "node scripts/build-desktop.mjs && playwright test",
+    "dist:mac": "node scripts/build-desktop.mjs && electron-builder --mac --universal --publish never",
+    "dist:win": "node scripts/build-desktop.mjs && electron-builder --win --x64 --publish never"
+  },
+  "devDependencies": {
+    "@fontsource-variable/dm-sans": "5.3.0",
+    "@fontsource-variable/space-grotesk": "5.3.0",
+    "@playwright/test": "1.65.0",
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.2.1",
+    "electron": "45.2.3",
+    "electron-builder": "26.18.0",
+    "esbuild": "0.28.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "sharp": "0.35.5",
+    "tldts": "7.4.19",
+    "typescript": "6.0.3",
+    "vite": "8.3.6",
+    "vitest": "5.1.0"
+  }
+}
