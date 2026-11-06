@@ -14,18 +14,18 @@ const NOTICES = /^\s*(?:>>>|terms of use|notice:|disclaimer)/i;
 const COMMENT = /^\s*(?:%|#|;)/;
 
 /** Lines that only appear when a name is free. These are checked first, as .de replies "Domain: x.de / Status: free". */
-const STATUS_FREE = /^\s*(?:(?:domain |registration )?status)\s*:\s*(?:free|available)\b/im;
+const STATUS_FREE = /^\s*(?:(?:domain |registration )?status)\s*:\s*(?:free|available)\b|^\s*available\s*$/im;
 
 /**
  * Lines that only appear in a real registration record, in whichever language the registry
  * uses: .bo says "Titular", .ga "Date de création", and .tm spaces its colons as "Expiry : 2027".
  */
 const REGISTERED =
-  /^\s*(?:creation date|created(?: on)?|record created|registered(?: on)?|registration time|expiration time|registrar|registrar url|registrar whois server|registry domain id|domain id|roid|sponsoring registrar|registrant(?: name| organi[sz]ation)?|titular|date de création|name ?servers?|nserver|ns\s*\d+|holder(?: of domain name)?|expiry(?: date)?|registry expiry date|changed|status\s*:\s*(?:connect|active|registered|ok|client)|registration status\s*:\s*(?:busy|active)|domain status\s*:\s*(?:client|server|active|ok))\b[^\n]*(?::|$)|^\s*(?:[a-z]\.\s*)?\[(?:domain name|registrant|name server|created on)\]/im;
+  /^\s*(?:creation date|created(?: on)?|record created|domainname|registered(?: on)?|registration time|expiration time|registrar|registrar url|registrar whois server|registry domain id|domain id|roid|sponsoring registrar|registrant(?: name| organi[sz]ation)?|titular|date de création|name ?servers?|nserver|ns\s*\d+|holder(?: of domain name)?|expiry(?: date)?|registry expiry date|changed|status\s*:\s*(?:connect|active|registered|ok|client)|registration status\s*:\s*(?:busy|active)|domain status\s*:\s*(?:client|server|active|ok))\b[^\n]*(?::|$)|^\s*(?:[a-z]\.\s*)?\[(?:domain name|registrant|name server|created on)\]/im;
 
 /** The sentences registries use for a name they have no record of, in English and their own languages. */
 const NOT_FOUND =
-  /no match|not found|no data found|no entries found|no entry found|no information available|no object found|object does not exist|queried object does not exist|is free\b|is available\b|is available for purchase|not registered|not been registered|we do not have an entry|no such domain|nothing found|domain unknown|object_not_found|no_se_encontro|nincs talalat/i;
+  /no match|not found|no data found|no entries found|no entry found|no information available|no object found|object does not exist|queried object does not exist|is free\b|is available\b|is available for purchase|not registered|not been registered|we do not have an entry|no such domain|nothing found|domain unknown|object_not_found|no_se_encontro|no se encuentra registrado|nincs talalat|no record found|no found\b/i;
 
 /**
  * Some registries give the answer in a line that looks like a comment or a notice:
@@ -33,7 +33,7 @@ const NOT_FOUND =
  * Legal text fills those lines too, so only a line that starts with the answer counts.
  */
 const ANSWER_IN_NOTICE =
-  /^\s*(?:%+\s*(?:error:\s*\d+:\s*)?|#+\s*|>>>\s*)(?:no match|no matching record|no entries found|no entry found|no such domain|no data (?:was )?found|nothing found|not found|object not found|domain not found|domain is not registered|domain \S+ is available for registration)\b/im;
+  /^\s*(?:%+\s*(?:error:\s*(?:\d+:\s*)?)?|#+\s*|>>>\s*)(?:no match|no matching record|no entries found|no entry found|no such domain|no data (?:was )?found|nothing found|not found|object not found|domain not found|domain is not registered|domain \S+ is available for registration)\b/im;
 
 /** Reads a registry's reply. Null means it can't be read with confidence. */
 export function readWhois(reply: string): "free" | "taken" | null {
@@ -50,7 +50,7 @@ export function readWhois(reply: string): "free" | "taken" | null {
 
 const FIELDS = {
   registrar: /^[ \t]*(?:sponsoring )?registrar[ \t]*:[ \t]*(\S.*)$/im,
-  registered: /^[ \t]*(?:creation date|created(?: on)?|record created|registered(?: on)?|registration time|date de création)[ \t]*:[ \t]*(\S.*)$/im,
+  registered: /^[ \t]*(?:creation date|created(?: on)?|record created|domainname|registered(?: on)?|registration time|date de création)[ \t]*:[ \t]*(\S.*)$/im,
   expires: /^[ \t]*(?:registry expiry date|expiry date|expiry|expiration date|expires(?: on)?|expiration time|paid-till)[ \t]*:[ \t]*(\S.*)$/im,
 };
 

@@ -65,5 +65,6 @@ describe("the one place for each fact", () => {
       expect(host).toMatch(/^[a-z0-9.-]+$/);
     }
     expect(UNLISTED_WHOIS.cd).toBe("whois.nic.cd");
+    expect(UNLISTED_RDAP.ch).toBe("https://rdap.nic.ch/");
   });
 });

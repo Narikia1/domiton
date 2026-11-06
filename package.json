@@ -1,7 +1,7 @@
 {
   "name": "domiton",
   "productName": "Domiton",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Check whether a domain name is free and find similar names on the same ending. A Narikia app in the DotGo family.",
   "author": "Narikia",
@@ -13,6 +13,7 @@
   "scripts": {
     "tokens": "node scripts/generate-tokens.mjs",
     "data": "node scripts/generate-hostinger-endings.mjs",
+    "survey": "esbuild scripts/survey-endings.ts --bundle --platform=node --format=esm --outfile=node_modules/.cache/domiton-survey.mjs --log-level=warning && node node_modules/.cache/domiton-survey.mjs",
     "dev": "vite",
     "build": "vite build",
     "typecheck": "tsc --noEmit",

@@ -8,10 +8,12 @@ import { checkDomain } from "../src/core/check.js";
 const ENDINGS = [
   "com", "net", "org", "info", "biz", "app", "dev", "xyz", "online", "store", "tech", "site",
   "ai", "io", "co", "me", "tv", "de", "fr", "co.uk", "eu", "nl", "be", "ch", "it", "ca", "us", "com.au", "cm",
+  // Around the world, including endings IANA names no server for.
+  "cd", "at", "jp", "cn", "ru", "com.br", "in", "pl", "ir", "tn", "ar", "bz", "ga", "kw", "lc",
 ];
 
 /** These registries don't answer public lookups, so the most the app can say about a free name is "likely". */
-const NO_PUBLIC_LOOKUP = ["shop", "es", "com.ng"];
+const NO_PUBLIC_LOOKUP = ["shop", "es", "com.ng", "pt"];
 
 const random = Math.random().toString(36).slice(2, 10);
 
